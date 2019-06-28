@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Level>
+  <PlayerPosition>
+    <X>0</X>
+    <Y>700</Y>
+  </PlayerPosition>
+
+  <Finish>
+    <Size>
+      <X>100</X>
+      <Y>100</Y>
+    </Size>
+    <Trajectory>
+      <Type>Static</Type>
+      <Position>
+        <X>0</X>
+        <Y>-700</Y>
+      </Position>
+    </Trajectory>
+    <Color>
+      <R>115</R>
+      <G>221</G>
+      <B>126</B>
+      <A>255</A>
+    </Color>
+  </Finish>
+
+  <GravityObject>
+    <MapObject>
+      <Size>
+        <X>65</X>
+        <Y>65</Y>
+      </Size>
+      <Trajectory>
+        <Type>Linear</Type>
+        <FirstPosition>
+          <X>200</X>
+          <Y>0</Y>
+        </FirstPosition>
+        <SecondPosition>
+          <X>-200</X>
+          <Y>0</Y>
+        </SecondPosition>
+        <LinearTime>0</LinearTime>
+        <LinearPeriod>3.1416</LinearPeriod>
+      </Trajectory>
+      <Color>
+        <A>255</A>
+      </Color>
+    </MapObject>
+    <GravityPower>100</GravityPower>
+  </GravityObject>
+</Level>

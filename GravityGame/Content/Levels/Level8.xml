@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Level>
+  <PlayerPosition>
+    <X>0</X>
+    <Y>700</Y>
+  </PlayerPosition>
+
+  <Finish>
+    <Size>
+      <X>100</X>
+      <Y>100</Y>
+    </Size>
+    <Trajectory>
+      <Type>Static</Type>
+      <Position>
+        <X>0</X>
+        <Y>-700</Y>
+      </Position>
+    </Trajectory>
+    <Color>
+      <R>115</R>
+      <G>221</G>
+      <B>126</B>
+      <A>255</A>
+    </Color>
+  </Finish>
+
+  <Portals>
+    <First>
+      <Size>
+        <X>15</X>
+        <Y>150</Y>
+      </Size>
+      <Rotation>270</Rotation>
+      <Trajectory>
+        <Type>Static</Type>
+        <Position>
+          <X>0</X>
+          <Y>-300</Y>
+        </Position>
+      </Trajectory>
+      <Color>
+        <R>184</R>
+        <G>0</G>
+        <B>184</B>
+        <A>255</A>
+      </Color>
+    </First>
+    
+    <Second>
+      <Size>
+        <X>15</X>
+        <Y>150</Y>
+      </Size>
+      <Rotation>90</Rotation>
+      <Trajectory>
+        <Type>Static</Type>
+        <Position>
+          <X>0</X>
+          <Y>300</Y>
+        </Position>
+      </Trajectory>
+      <Color>
+        <R>184</R>
+        <G>0</G>
+        <B>184</B>
+        <A>255</A>
+      </Color>
+    </Second>
+  </Portals>
+</Level>
