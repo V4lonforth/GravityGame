@@ -8,6 +8,8 @@ using GravityGame.GameObjects.MapObjects;
 using GravityGame.Utils;
 using GravityGame.Effects;
 using GravityGame.GameObjects.Base;
+using GravityGame.Effects.PortalEffects;
+using GravityGame.Effects.GravityEffects;
 
 namespace GravityGame.Controllers
 {
@@ -78,7 +80,11 @@ namespace GravityGame.Controllers
             Finish.LoadContent(content);
             Portal.LoadContent(content);
             TrailDrawer.LoadContent(content, graphics);
-            ParticlesDrawer.LoadContent(content, graphics);
+            PortalParticlesDrawer.LoadContent(content);
+            GravityParticlesDrawer.LoadContent(content);
+
+            ParticlesDrawer<PortalParticleVertexData>.LoadContent(graphics);
+            ParticlesDrawer<GravityParticleVertexData>.LoadContent(graphics);
         }
 
         public bool CheckTouch(TouchLocation touch)
@@ -137,7 +143,8 @@ namespace GravityGame.Controllers
         public void Update()
         {
             TrailDrawer.UpdateEffect();
-            ParticlesDrawer.UpdateEffect();
+            PortalParticlesDrawer.UpdateEffect();
+            GravityParticlesDrawer.UpdateEffect();
             Time.Update();
             UpdatePlayerObjects();
             switch (gameState)

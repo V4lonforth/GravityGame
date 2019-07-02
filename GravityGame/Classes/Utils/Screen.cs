@@ -30,7 +30,6 @@ namespace GravityGame.Utils
             SceneSize = new Point((int)(ScreenSize.X / Size), SceneHeight);
             SceneRect = new Rectangle(-SceneSize.X / 2, -SceneSize.Y / 2, SceneSize.X, SceneSize.Y);
 
-            //Controllers.Game.BorderRect = new Rectangle(-BorderOffset - SceneSize.X / 2, -BorderOffset - SceneSize.Y / 2, BorderOffset * 2 + SceneSize.X, BorderOffset * 2 + SceneSize.Y);
             CreateGUIMatrix();
             CreateSceneMatrix();
         }
@@ -42,10 +41,12 @@ namespace GravityGame.Utils
         {
             SceneMatrix = Matrix.CreateScale(Size) * Matrix.CreateTranslation(new Vector3(ScreenSize.X / 2f, ScreenSize.Y / 2f, 0f));
         }
+
         public static void MoveCamera(Vector2 offset)
         {
             SceneMatrix = Matrix.CreateTranslation(offset.X, offset.Y, 0f) * SceneMatrix;
         }
+
         public static void SetCameraPosition(Vector2 position)
         {
             CreateSceneMatrix();

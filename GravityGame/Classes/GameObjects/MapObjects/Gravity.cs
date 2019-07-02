@@ -1,13 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GravityGame.GameObjects.Base;
 using GravityGame.GameObjects.MapObjects.Base;
+using GravityGame.Effects.GravityEffects;
 
 namespace GravityGame.GameObjects.MapObjects
 {
-    public class Gravity : MapObject
+    public class Gravity : MapObject, IGameObject
     {
         private float gravityPower;
+
+        private GravityParticlesDrawer particlesDrawer;
 
         private static Texture2D defaultSprite;
 
@@ -17,6 +21,7 @@ namespace GravityGame.GameObjects.MapObjects
             : base(movingTrajectory, defaultSprite, size, rotation, Color.Black, spriteEffects, depth)
         {
             this.gravityPower = gravityPower;
+            particlesDrawer = new GravityParticlesDrawer(this);
         }
 
         public static void LoadContent(ContentManager content)
@@ -30,6 +35,18 @@ namespace GravityGame.GameObjects.MapObjects
             float distance = offset.Length();
             Vector2 direction = offset / distance;
             return direction * (gravityPower / (distance * distance) * forceKoeff);
+        }
+
+        public new void Update()
+        {
+            base.Update();
+            particlesDrawer.Update();
+        }
+
+        public new void Draw(SpriteBatch spriteBatch)
+        {
+            particlesDrawer.Draw();
+            base.Draw(spriteBatch);
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GravityGame.GameObjects.MapObjects.Base;
 using GravityGame.GameObjects.Base;
-using GravityGame.Effects;
+using GravityGame.Effects.PortalEffects;
 
 namespace GravityGame.GameObjects.MapObjects
 {
@@ -59,7 +59,7 @@ namespace GravityGame.GameObjects.MapObjects
         private Frame bottomFrame;
         private Polygon polygon;
 
-        private ParticlesDrawer particlesDrawer;
+        private PortalParticlesDrawer particlesDrawer;
 
         public Portal NextPortal { get; set; }
 
@@ -75,7 +75,7 @@ namespace GravityGame.GameObjects.MapObjects
             bottomFrame = new Frame(this, (float)Math.PI);
 
             polygon = new Polygon(Vector2.Zero, size, 0f);
-            particlesDrawer = new ParticlesDrawer(this, Color);
+            particlesDrawer = new PortalParticlesDrawer(this, Color);
             Update();
         }
 

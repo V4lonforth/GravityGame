@@ -62,12 +62,16 @@
     <Compile Include="Classes\Controllers\GameState.cs" />
     <Compile Include="Classes\Controllers\IController.cs" />
     <Compile Include="Classes\Effects\Contour.cs" />
+    <Compile Include="Classes\Effects\GravityEffects\GravityParticlesDrawer.cs" />
+    <Compile Include="Classes\Effects\GravityEffects\GravityParticleVertexData.cs" />
     <Compile Include="Classes\Effects\ParticlesDrawer.cs" />
-    <Compile Include="Classes\Effects\ParticleVertexData.cs" />
+    <Compile Include="Classes\Effects\PortalEffects\PortalParticlesDrawer.cs" />
+    <Compile Include="Classes\Effects\PortalEffects\PortalParticleVertexData.cs" />
     <Compile Include="Classes\Effects\TrailDrawer.cs" />
     <Compile Include="Classes\Effects\VertexData.cs" />
-    <Compile Include="Classes\Extensions\Functions.cs" />
-    <Compile Include="Classes\Extensions\Vector2Extension.cs" />
+    <Compile Include="Classes\Utils\FloatRandom.cs" />
+    <Compile Include="Classes\Utils\Functions.cs" />
+    <Compile Include="Classes\Utils\Vector2Extension.cs" />
     <Compile Include="Classes\GameObjects\Base\Drawable.cs" />
     <Compile Include="Classes\GameObjects\Base\ICollider.cs" />
     <Compile Include="Classes\GameObjects\Base\IGameObject.cs" />
@@ -153,12 +157,15 @@
     <AndroidAsset Include="Content\Levels\Level9.xml" />
     <AndroidAsset Include="Content\Levels\Template.xml" />
     <None Include="Content\Shaders\Blur.fx" />
-    <None Include="Content\Shaders\Particles.fx" />
+    <None Include="Content\Shaders\PortalParticles.fx" />
     <None Include="Content\Shaders\PortalMap.fx" />
     <None Include="Content\Shaders\Trail.fx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\GameObjects\DottedLineCircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Shaders\GravityParticles.fx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

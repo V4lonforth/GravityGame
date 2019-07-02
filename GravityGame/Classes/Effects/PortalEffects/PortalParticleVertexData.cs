@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GravityGame.Effects
+namespace GravityGame.Effects.PortalEffects
 {
-    public struct ParticleVertexData : IVertexType
+    public struct PortalParticleVertexData : IVertexType
     {
         public Vector2 Position;
         public Vector2 LocalPosition;
@@ -12,7 +12,7 @@ namespace GravityGame.Effects
         public float Time;
         public Color Color;
 
-        public ParticleVertexData(Vector2 position, Vector2 localPosition, Vector2 speed, float rotationSpeed, float time, Color color)
+        public PortalParticleVertexData(Vector2 position, Vector2 localPosition, Vector2 speed, float rotationSpeed, float time, Color color)
         {
             LocalPosition = localPosition;
             Position = position;

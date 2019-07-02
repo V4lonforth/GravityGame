@@ -32,7 +32,7 @@ namespace GravityGame.GameObjects.MapObjects
             : base(defaultSprite, position, size, 0f, new Color(62, 181, 241), spriteEffects, depth)
         {
             Contour = new Contour();
-            trail = new TrailDrawer(this, Color * 0.8f, Radius - 6);
+            trail = new TrailDrawer(this, new Color(Color * 0.8f, 1f), Radius - 6);
 
             mirroredDrawable = new Drawable(defaultSprite, position, size, 0f, new Color(62, 181, 241), spriteEffects, depth);
         }
