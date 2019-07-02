@@ -6,8 +6,6 @@ float height;
 float currentTime;
 float duration;
 
-static const float PI = 3.14159265f;
-
 struct VertexInput
 {
 	float2 position : POSITION0;
@@ -29,17 +27,29 @@ struct PixelToFrame
 	float4 color : COLOR0;
 };
 
+float2 rotate(float2 position, float angle)
+{
+	return float2	(position.x * cos(angle) - position.y * sin(angle),
+					position.y * cos(angle) + position.x * sin(angle));
+}
+
+float4 transformPosition(float2 position)
+{
+	float4 outPosition = mul(float4(position, 1, 1), worldMatrix);
+	outPosition.x = outPosition.x / width - 1.0;
+	outPosition.y = -outPosition.y / height + 1.0;
+	return outPosition;
+}
+
 VertexToPixel vsMain(VertexInput input)
 {
 	VertexToPixel output = (VertexToPixel)0;
 
     float2 position = input.position + input.speed * (currentTime - input.time);
     float angle = input.rotationSpeed * (currentTime - input.time);
-    position = position + float2(input.localPosition.x * cos(angle) - input.localPosition.y * sin(angle),
-								 input.localPosition.y * cos(angle) + input.localPosition.x * sin(angle));
-    output.position = mul(float4(position, 1, 1), worldMatrix);
-	output.position.x = output.position.x / width - 1.0;
-	output.position.y = -output.position.y / height + 1.0;
+    position = position + rotate(input.localPosition, angle);
+
+	output.position = transformPosition(position);
 	output.color = float4(input.color.rgb, 1 - (currentTime - input.time) / duration);
 	return output;
 }
@@ -51,7 +61,7 @@ PixelToFrame psMain(VertexToPixel input)
 	return output;
 }
 
-technique Particles
+technique PortalParticles
 {
 	pass Pass0
 	{

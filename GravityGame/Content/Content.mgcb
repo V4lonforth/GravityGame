@@ -37,18 +37,6 @@
 /processorParam:TextureFormat=Color
 /build:GameObjects/Circle.png
 
-#begin GameObjects/Circle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GameObjects/Circle.png
-
 #begin GameObjects/DottedLineCircle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -73,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:GameObjects/PortalFrame.png
 
-#begin GameObjects/PortalFrame.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GameObjects/PortalFrame.png
-
 #begin GameObjects/Rectangle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,30 +72,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:GameObjects/Rectangle.png
-
-#begin GameObjects/Rectangle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GameObjects/Rectangle.png
-
-#begin GameObjects/Trajectory.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GameObjects/Trajectory.png
 
 #begin GameObjects/Trajectory.png
 /importer:TextureImporter
@@ -206,17 +158,41 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/Blur.fx
 
-#begin Shaders/Particles.fx
+#begin Shaders/Blur.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Shaders/Particles.fx
+/build:Shaders/Blur.fx
+
+#begin Shaders/GravityParticles.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/GravityParticles.fx
 
 #begin Shaders/PortalMap.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Shaders/PortalMap.fx
+
+#begin Shaders/PortalMap.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/PortalMap.fx
+
+#begin Shaders/PortalParticles.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/PortalParticles.fx
+
+#begin Shaders/Trail.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/Trail.fx
 
 #begin Shaders/Trail.fx
 /importer:EffectImporter

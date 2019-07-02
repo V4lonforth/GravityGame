@@ -7,8 +7,6 @@ float duration;
 float currentTime;
 float4 color; 
 
-static const float PI = 3.14159265f;
-
 struct VertexInput
 {
 	float2 startPosition : POSITION0;
@@ -17,40 +15,31 @@ struct VertexInput
 	float endTime : PSIZE0;
 };
 
-struct VertexToPixel
+float4 transformPosition(float2 position)
 {
-	float4 position : POSITION;
-};
+	float4 outPosition = mul(float4(position, 1, 1), worldMatrix);
+	outPosition.x = outPosition.x / width - 1.0;
+	outPosition.y = -outPosition.y / height + 1.0;
+	return outPosition;
+}
 
-struct PixelToFrame
+float4 vsMain(VertexInput input) : POSITION
 {
-	float4 color : COLOR0;
-};
-
-VertexToPixel vsMain(VertexInput input)
-{
-	VertexToPixel output = (VertexToPixel)0;
+	float4 outputPosition = 0;
     if (currentTime <= input.endTime - 0.02)
     {
 	    float pos = (currentTime - input.endTime + duration) / duration;
-		//pos = sin(pos * PI / 2);
 		pos = sqrt(pos);
         float2 position = input.startPosition + (input.endPosition - input.startPosition) * pos;
 
-	    output.position = mul(float4(position.x, position.y, 1, 1), worldMatrix);
-	    output.position.x = output.position.x / width - 1.0;
-	    output.position.y = -output.position.y / height + 1.0;
+		outputPosition = transformPosition(position);
     }
-	return output;
+	return outputPosition;
 }
 
-PixelToFrame psMain(VertexToPixel input)
+float4 psMain(float4 position : POSITION) : COLOR0
 {
-	PixelToFrame output = (PixelToFrame)0;
-
-	output.color = color;
-
-	return output;
+	return color;
 }
 
 technique Trail
