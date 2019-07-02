@@ -37,9 +37,9 @@
           <X>0</X>
           <Y>0</Y>
         </Center>
-        <Radius>100</Radius>
+        <Radius>150</Radius>
         <CircleAngle>0</CircleAngle>
-        <CirclePeriod>5</CirclePeriod>
+        <CirclePeriod>8</CirclePeriod>
       </Trajectory>
       <Color>
         <A>255</A>
@@ -60,9 +60,9 @@
           <X>0</X>
           <Y>0</Y>
         </Center>
-        <Radius>100</Radius>
+        <Radius>160</Radius>
         <CircleAngle>3.1416</CircleAngle>
-        <CirclePeriod>5</CirclePeriod>
+        <CirclePeriod>8</CirclePeriod>
       </Trajectory>
       <Color>
         <A>255</A>

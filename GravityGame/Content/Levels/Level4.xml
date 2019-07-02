@@ -39,7 +39,7 @@
         </Center>
         <Radius>250</Radius>
         <CircleAngle>0</CircleAngle>
-        <CirclePeriod>6.2832</CirclePeriod>
+        <CirclePeriod>8</CirclePeriod>
       </Trajectory>
       <Color>
         <A>255</A>
@@ -62,7 +62,7 @@
         </Center>
         <Radius>250</Radius>
         <CircleAngle>2.0944</CircleAngle>
-        <CirclePeriod>6.2832</CirclePeriod>
+        <CirclePeriod>8</CirclePeriod>
       </Trajectory>
       <Color>
         <A>255</A>
@@ -85,7 +85,7 @@
         </Center>
         <Radius>250</Radius>
         <CircleAngle>4.1888</CircleAngle>
-        <CirclePeriod>6.2832</CirclePeriod>
+        <CirclePeriod>8</CirclePeriod>
       </Trajectory>
       <Color>
         <A>255</A>
