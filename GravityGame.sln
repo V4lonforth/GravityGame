@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GravityGame", "GravityGame\GravityGame.csproj", "{42A4FB8C-958C-413B-8A03-8D2564A6D11C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelConstructor", "LevelConstructor\LevelConstructor.csproj", "{A9843359-1004-41EA-9822-01F001693327}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{42A4FB8C-958C-413B-8A03-8D2564A6D11C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42A4FB8C-958C-413B-8A03-8D2564A6D11C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42A4FB8C-958C-413B-8A03-8D2564A6D11C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A9843359-1004-41EA-9822-01F001693327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9843359-1004-41EA-9822-01F001693327}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9843359-1004-41EA-9822-01F001693327}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9843359-1004-41EA-9822-01F001693327}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LevelInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <PlayerPosition>
+    <X>0</X>
+    <Y>700</Y>
+  </PlayerPosition>
+  
+  <Finish>
+    <Size>
+      <X>100</X>
+      <Y>100</Y>
+    </Size>
+    <Trajectory>
+      <MovingType>Static</MovingType>
+      <Position>
+        <X>0</X>
+        <Y>-700</Y>
+      </Position>
+    </Trajectory>
+    <Color>
+      <B>126</B>
+      <G>221</G>
+      <R>115</R>
+      <A>255</A>
+    </Color>
+  </Finish>
+  
+  <GravityObjects>
+    <GravityInfo>
+      <MapObject>
+        <Size>
+          <X>80</X>
+          <Y>80</Y>
+        </Size>
+        <Trajectory>
+          <MovingType>Static</MovingType>
+          <Position>
+            <X>0</X>
+            <Y>0</Y>
+          </Position>
+        </Trajectory>
+        <Color>
+          <A>255</A>
+        </Color>
+      </MapObject>
+      <GravityPower>110</GravityPower>
+    </GravityInfo>
+  </GravityObjects>
+</LevelInfo>
