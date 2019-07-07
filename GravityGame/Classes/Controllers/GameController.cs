@@ -78,6 +78,7 @@ namespace GravityGame.Controllers
             Player.LoadContent(content);
             Gravity.LoadContent(content);
             Finish.LoadContent(content);
+            Star.LoadContent(content);
             Portal.LoadContent(content);
             TrailDrawer.LoadContent(content, graphics);
             PortalParticlesDrawer.LoadContent(content);
@@ -141,6 +142,20 @@ namespace GravityGame.Controllers
             currentSwitchingLevelsTime = 0f;
         }
 
+        private void RemovePlayer(Player player)
+        {
+            players.Remove(player);
+            foreach (Star star in level.Stars)
+                star.RemovePlayer(player);
+        }
+
+        private void CheckStars()
+        {
+            foreach (IGameObject player in players)
+                foreach (Star star in level.Stars)
+                    star.TryGainStar(player);
+        }
+
         public void Update()
         {
             TrailDrawer.UpdateEffect();
@@ -148,6 +163,7 @@ namespace GravityGame.Controllers
             GravityParticlesDrawer.UpdateEffect();
             Time.Update();
             UpdatePlayerObjects();
+            CheckStars();
             switch (gameState)
             {
                 case GameState.Playing:

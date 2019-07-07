@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LevelInfo>
+<LevelInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <PlayerPosition>
     <X>0</X>
     <Y>700</Y>
   </PlayerPosition>
-  
+
   <Finish>
     <Size>
       <X>100</X>
@@ -18,13 +18,13 @@
       </Position>
     </Trajectory>
     <Color>
-      <B>126</B>
-      <G>221</G>
       <R>115</R>
+      <G>221</G>
+      <B>126</B>
       <A>255</A>
     </Color>
   </Finish>
-  
+
   <GravityObjects>
     <GravityInfo>
       <MapObject>
@@ -46,4 +46,45 @@
       <GravityPower>110</GravityPower>
     </GravityInfo>
   </GravityObjects>
+
+  <Stars>
+    <!--MapObjectInfo>
+      <Size>
+        <X>100</X>
+        <Y>100</Y>
+      </Size>
+      <Color>
+        <R>255</R>
+        <G>242</G>
+        <B>0</B>
+        <A>255</A>
+      </Color>
+      <Trajectory>
+        <MovingType>Static</MovingType>
+        <Position>
+          <X>200</X>
+          <Y>200</Y>
+        </Position>
+      </Trajectory>
+    </MapObjectInfo-->
+    <MapObjectInfo>
+      <Size>
+        <X>100</X>
+        <Y>100</Y>
+      </Size>
+      <Color>
+        <R>255</R>
+        <G>242</G>
+        <B>0</B>
+        <A>255</A>
+      </Color>
+      <Trajectory>
+        <MovingType>Static</MovingType>
+        <Position>
+          <X>300</X>
+          <Y>0</Y>
+        </Position>
+      </Trajectory>
+    </MapObjectInfo>
+  </Stars>
 </LevelInfo>

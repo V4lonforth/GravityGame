@@ -11,5 +11,6 @@ namespace GravityGame.Levels
         public MapObjectInfo Finish;
         public GravityInfo[] GravityObjects;
         public PortalsInfo[] Portals;
+        public MapObjectInfo[] Stars;
     }
 }

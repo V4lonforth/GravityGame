@@ -69,6 +69,7 @@
     <Compile Include="Classes\Effects\PortalEffects\PortalParticleVertexData.cs" />
     <Compile Include="Classes\Effects\TrailDrawer.cs" />
     <Compile Include="Classes\Effects\VertexData.cs" />
+    <Compile Include="Classes\GameObjects\MapObjects\Star.cs" />
     <Compile Include="Classes\Utils\FloatRandom.cs" />
     <Compile Include="Classes\Utils\Functions.cs" />
     <Compile Include="Classes\Utils\Vector2Extension.cs" />

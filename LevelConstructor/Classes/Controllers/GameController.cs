@@ -86,6 +86,7 @@ namespace LevelConstructor.Controllers
             Gravity.LoadContent(content);
             Finish.LoadContent(content);
             Portal.LoadContent(content);
+            Star.LoadContent(content);
             TrailDrawer.LoadContent(content, graphics);
             PortalParticlesDrawer.LoadContent(content);
             GravityParticlesDrawer.LoadContent(content);

@@ -14,9 +14,10 @@ namespace GravityGame.Levels
     {
         public int Number { get; }
         public Vector2 StartPosition { get; }
-        public List<Gravity> GravityObjects { get; }
-        public List<Portal> Portals { get; }
+        public Gravity[] GravityObjects { get; }
+        public Portal[] Portals { get; }
         public Finish FinishObject { get; }
+        public Star[] Stars { get; }
 
         public List<IGameObject> GameObjects { get; }
         public List<ICollider> Colliders { get; }
@@ -33,23 +34,32 @@ namespace GravityGame.Levels
             StartPosition = info.PlayerPosition;
             FinishObject = new Finish(GetMovingTrajectory(info.Finish.Trajectory), info.Finish.Size, 0f, info.Finish.Color);
             GameObjects.Add(FinishObject);
-            GravityObjects = new List<Gravity>(info.GravityObjects == null ? 0 : info.GravityObjects.Length);
-            Portals = new List<Portal>(info.Portals == null ? 0 : info.Portals.Length * 2);
-            for (int i = 0; i < GravityObjects.Capacity; i++)
+            GravityObjects = new Gravity[info.GravityObjects == null ? 0 : info.GravityObjects.Length];
+            Stars = new Star[info.Stars == null ? 0 : info.Stars.Length];
+            Portals = new Portal[info.Portals == null ? 0 : info.Portals.Length * 2];
+
+            for (int i = 0; i < GravityObjects.Length; i++)
             {
                 Gravity gravity = new Gravity(info.GravityObjects[i].GravityPower, GetMovingTrajectory(info.GravityObjects[i].MapObject.Trajectory), info.GravityObjects[i].MapObject.Size, 0f);
-                GravityObjects.Add(gravity);
+                GravityObjects[i] = gravity;
                 GameObjects.Add(gravity);
             }
 
-            for (int i = 0; i < Portals.Capacity / 2; i++)
+            for (int i = 0; i < Stars.Length; i++)
+            {
+                Star star = new Star(GetMovingTrajectory(info.Stars[i].Trajectory), info.Stars[i].Size, info.Stars[i].Rotation, info.Stars[i].Color);
+                Stars[i] = star;
+                GameObjects.Add(star);
+            }
+
+            for (int i = 0; i < Portals.Length / 2; i++)
             {
                 Portal first = new Portal(GetMovingTrajectory(info.Portals[i].FirstPortal.Trajectory), info.Portals[i].FirstPortal.Size, info.Portals[i].FirstPortal.Rotation / 180f * (float)Math.PI, info.Portals[i].FirstPortal.Color);
                 Portal second = new Portal(GetMovingTrajectory(info.Portals[i].SecondPortal.Trajectory), info.Portals[i].SecondPortal.Size, info.Portals[i].SecondPortal.Rotation / 180f * (float)Math.PI, info.Portals[i].SecondPortal.Color);
                 first.NextPortal = second;
                 second.NextPortal = first;
-                Portals.Add(first);
-                Portals.Add(second);
+                Portals[i * 2] = first;
+                Portals[i * 2 + 1] = second;
                 GameObjects.Add(first);
                 GameObjects.Add(second);
                 Colliders.Add(first);
