@@ -80,12 +80,8 @@ namespace GravityGame.Effects
         public void Launch()
         {
             Position = parent.Position;
-            //
-            //vertexesData[0] = new TrailVertexData(Position, Position, Time.CurrentTime + TrailTime);
-            //vertexesData[1] = new TrailVertexData(Position, Position, Time.CurrentTime + TrailTime);
-            //vertexesData[2] = new TrailVertexData(Position, Position, Time.CurrentTime + TrailTime);
-            //
-            //index = 0;
+            for (int i = 0; i < VertexesCount; i++)
+                vertexesData[i].EndPosition = vertexesData[i].StartPosition = Position;
         }
 
         private void CreateTrail(Vector2 firstPos, Vector2 secondPos)

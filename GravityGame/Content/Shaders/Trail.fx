@@ -5,13 +5,13 @@ float height;
 
 float duration;
 float currentTime;
-float4 color; 
+float4 color;
 
 struct VertexInput
 {
 	float2 startPosition : POSITION0;
 	float2 endPosition : POSITION1;
-	
+
 	float endTime : PSIZE0;
 };
 
@@ -25,16 +25,15 @@ float4 transformPosition(float2 position)
 
 float4 vsMain(VertexInput input) : POSITION
 {
-	float4 outputPosition = 0;
-    if (currentTime <= input.endTime - 0.02)
-    {
-	    float pos = (currentTime - input.endTime + duration) / duration;
+	if (currentTime <= input.endTime - 0.02)
+	{
+		float pos = (currentTime - input.endTime + duration) / duration;
 		pos = sqrt(pos);
-        float2 position = input.startPosition + (input.endPosition - input.startPosition) * pos;
+		float2 position = input.startPosition + (input.endPosition - input.startPosition) * pos;
 
-		outputPosition = transformPosition(position);
-    }
-	return outputPosition;
+		return transformPosition(position);
+	}
+	return transformPosition(input.endPosition);
 }
 
 float4 psMain(float4 position : POSITION) : COLOR0
