@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin GameObjects/Circle.png
+#begin ../../GravityGame/Content/GameObjects/Circle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,9 +23,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameObjects/Circle.png
+/build:../../GravityGame/Content/GameObjects/Circle.png;GameObjects/Circle.png
 
-#begin GameObjects/DottedLineCircle.png
+#begin ../../GravityGame/Content/GameObjects/DottedLineCircle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,9 +35,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameObjects/DottedLineCircle.png
+/build:../../GravityGame/Content/GameObjects/DottedLineCircle.png;GameObjects/DottedLineCircle.png
 
-#begin GameObjects/PortalFrame.png
+#begin ../../GravityGame/Content/GameObjects/PortalFrame.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,9 +47,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameObjects/PortalFrame.png
+/build:../../GravityGame/Content/GameObjects/PortalFrame.png;GameObjects/PortalFrame.png
 
-#begin GameObjects/Rectangle.png
+#begin ../../GravityGame/Content/GameObjects/Rectangle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,9 +59,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameObjects/Rectangle.png
+/build:../../GravityGame/Content/GameObjects/Rectangle.png;GameObjects/Rectangle.png
 
-#begin GameObjects/Trajectory.png
+#begin ../../GravityGame/Content/GameObjects/Trajectory.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,102 +71,35 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameObjects/Trajectory.png
+/build:../../GravityGame/Content/GameObjects/Trajectory.png;GameObjects/Trajectory.png
 
-#begin GUI/Charge.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GUI/Charge.png
-
-#begin GUI/ChargesBackground.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GUI/ChargesBackground.png
-
-#begin GUI/ClearButton.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GUI/ClearButton.png
-
-#begin GUI/Fonts/Font.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:GUI/Fonts/Font.spritefont
-
-#begin GUI/LevelButton.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GUI/LevelButton.png
-
-#begin GUI/PlayButton.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GUI/PlayButton.png
-
-#begin Shaders/Blur.fx
+#begin ../../GravityGame/Content/Shaders/Blur.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Shaders/Blur.fx
+/build:../../GravityGame/Content/Shaders/Blur.fx;Shaders/Blur.fx
 
-#begin Shaders/GravityParticles.fx
+#begin ../../GravityGame/Content/Shaders/GravityParticles.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Shaders/GravityParticles.fx
+/build:../../GravityGame/Content/Shaders/GravityParticles.fx;Shaders/GravityParticles.fx
 
-#begin Shaders/PortalMap.fx
+#begin ../../GravityGame/Content/Shaders/PortalMap.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Shaders/PortalMap.fx
+/build:../../GravityGame/Content/Shaders/PortalMap.fx;Shaders/PortalMap.fx
 
-#begin Shaders/PortalParticles.fx
+#begin ../../GravityGame/Content/Shaders/PortalParticles.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Shaders/PortalParticles.fx
+/build:../../GravityGame/Content/Shaders/PortalParticles.fx;Shaders/PortalParticles.fx
 
-#begin Shaders/Trail.fx
+#begin ../../GravityGame/Content/Shaders/Trail.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Shaders/Trail.fx
+/build:../../GravityGame/Content/Shaders/Trail.fx;Shaders/Trail.fx
 

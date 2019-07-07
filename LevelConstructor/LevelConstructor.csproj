@@ -43,8 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\Controllers\GameController.cs" />
-    <Compile Include="Classes\Controllers\GameState.cs" />
-    <Compile Include="Classes\Controllers\IController.cs" />
     <Compile Include="Classes\Game1.cs" />
     <Compile Include="Classes\Levels\WindowsLevelsLoader.cs" />
     <Compile Include="Classes\Program.cs" />
@@ -108,57 +106,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
-    <None Include="Content\GUI\Fonts\Font.spritefont">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\Shaders\Blur.fx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\Shaders\GravityParticles.fx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\Shaders\PortalMap.fx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\Shaders\PortalParticles.fx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\Shaders\Trail.fx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GameObjects\Circle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GameObjects\DottedLineCircle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GameObjects\PortalFrame.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GameObjects\Rectangle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GameObjects\Trajectory.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GUI\Charge.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GUI\ChargesBackground.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GUI\ClearButton.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GUI\LevelButton.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\GUI\PlayButton.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Content\Levels\Template.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Content\Levels\TestLevel.xml">

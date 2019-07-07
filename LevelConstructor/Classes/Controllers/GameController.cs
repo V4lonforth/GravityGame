@@ -11,11 +11,12 @@ using GravityGame.Effects;
 using GravityGame.Effects.PortalEffects;
 using GravityGame.Effects.GravityEffects;
 using GravityGame.Levels;
+using GravityGame.Controllers;
 using LevelConstructor.Levels;
 
 namespace LevelConstructor.Controllers
 {
-    public class GameController : IController
+    public class GameController
     {
         private MouseState oldState;
 

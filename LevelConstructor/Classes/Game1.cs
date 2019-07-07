@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using LevelConstructor.Controllers;
-using GravityGame.GUI;
 using GravityGame.Utils;
 
 namespace LevelConstructor
@@ -14,8 +12,6 @@ namespace LevelConstructor
         private SpriteBatch spriteBatch;
 
         private GameController gameController;
-
-        private List<IController> controllers;
 
         public Game1()
         {
@@ -37,11 +33,6 @@ namespace LevelConstructor
             base.Initialize();
 
             gameController = new GameController(GraphicsDevice, spriteBatch);
-
-            controllers = new List<IController>()
-            {
-                gameController
-            };
         }
 
         protected override void LoadContent()
@@ -56,9 +47,8 @@ namespace LevelConstructor
 
         protected override void Update(GameTime gameTime)
         {
-            CheckTouches();
-            foreach (IController controller in controllers)
-                controller.Update();
+            gameController.CheckTouch(Mouse.GetState());
+            gameController.Update();
 
             base.Update(gameTime);
         }
@@ -68,12 +58,6 @@ namespace LevelConstructor
             gameController.Draw(spriteBatch);
 
             base.Draw(gameTime);
-        }
-
-        private void CheckTouches()
-        {
-            MouseState state = Mouse.GetState();
-            gameController.CheckTouch(state);
         }
     }
 }
