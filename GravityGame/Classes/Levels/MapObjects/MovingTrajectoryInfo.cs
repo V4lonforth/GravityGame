@@ -1,12 +1,11 @@
-﻿using System.Xml.Serialization;
+﻿using System;
 using Microsoft.Xna.Framework;
 
 namespace GravityGame.Levels.MapObjects
 {
-    [XmlRoot("Trajectory")]
+    [Serializable]
     public class MovingTrajectoryInfo
     {
-        [XmlElement("Type")]
         public MovingType MovingType;
 
         public Vector2 Position;

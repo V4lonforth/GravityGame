@@ -1,13 +1,11 @@
-﻿using System.Xml.Serialization;
+﻿using System;
 
 namespace GravityGame.Levels.MapObjects
 {
-    [XmlRoot("Portals")]
+    [Serializable]
     public class PortalsInfo
     {
-        [XmlElement("First")]
         public MapObjectInfo FirstPortal;
-        [XmlElement("Second")]
         public MapObjectInfo SecondPortal;
     }
 }

@@ -1,13 +1,11 @@
-﻿using System.Xml.Serialization;
+﻿using System;
 
 namespace GravityGame.Levels.MapObjects
 {
-    [XmlRoot("GravityObject")]
+    [Serializable]
     public class GravityInfo
     {
-        [XmlElement("MapObject")]
         public MapObjectInfo MapObject;
-        [XmlElement("GravityPower")]
         public float GravityPower;
     }
 }

@@ -13,18 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Effects/Particle1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Effects/Particle1.png
-
 #begin GameObjects/Circle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -158,12 +146,6 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/Blur.fx
 
-#begin Shaders/Blur.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Shaders/Blur.fx
-
 #begin Shaders/GravityParticles.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -176,23 +158,11 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/PortalMap.fx
 
-#begin Shaders/PortalMap.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Shaders/PortalMap.fx
-
 #begin Shaders/PortalParticles.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Shaders/PortalParticles.fx
-
-#begin Shaders/Trail.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Shaders/Trail.fx
 
 #begin Shaders/Trail.fx
 /importer:EffectImporter

@@ -56,7 +56,7 @@ namespace GravityGame.Controllers
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = spriteBatch;
 
-            level = new Level(1, graphicsDevice, spriteBatch);
+            level = new Level(1, new LevelsLoader().LoadInfo<LevelInfo>(1), graphicsDevice, spriteBatch);
             gameState = GameState.Playing;
             players = new List<IGameObject>();
             levelRenderTarget = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
@@ -128,7 +128,8 @@ namespace GravityGame.Controllers
             launchingPlayerObject = null;
             launching = false;
             gameState = GameState.SwitchingLevels;
-            nextLevel = new Level(level.Number + 1 > LevelsCount ? level.Number : level.Number + 1, graphicsDevice, spriteBatch);
+            int number = level.Number + 1 > LevelsCount ? level.Number : level.Number + 1;
+            nextLevel = new Level(number, new LevelsLoader().LoadInfo<LevelInfo>(number), graphicsDevice, spriteBatch);
             lastTrajectoryContour = null;
         }
         private void SwitchLevel()

@@ -23,11 +23,9 @@ namespace GravityGame.Levels
 
         public RenderTarget2D PortalMap { get; private set; }
 
-        public Level(int number, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        public Level(int number, LevelInfo info, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             Number = number;
-            LevelsLoader loader = new LevelsLoader();
-            LevelInfo info = loader.LoadInfo<LevelInfo>("Level" + number.ToString());
 
             GameObjects = new List<IGameObject>();
             Colliders = new List<ICollider>();

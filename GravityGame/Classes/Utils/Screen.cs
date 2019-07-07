@@ -20,10 +20,10 @@ namespace GravityGame.Utils
 
         private const int BorderOffset = 300;
 
-        public static void CreateData(DisplayMetrics displayMetrics)
+        public static void CreateData(Point screenSize)
         {
-            ScreenSize.X = displayMetrics.WidthPixels;
-            ScreenSize.Y = displayMetrics.HeightPixels;
+            ScreenSize.X = screenSize.X;
+            ScreenSize.Y = screenSize.Y;
             ScreenRect = new Rectangle(Point.Zero, ScreenSize);
 
             Size = ScreenSize.Y / (float)SceneHeight;

@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Level>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LevelInfo>
   <PlayerPosition>
     <X>0</X>
     <Y>700</Y>
@@ -11,37 +11,39 @@
       <Y>100</Y>
     </Size>
     <Trajectory>
-      <Type>Static</Type>
+      <MovingType>Static</MovingType>
       <Position>
         <X>0</X>
         <Y>-700</Y>
       </Position>
     </Trajectory>
     <Color>
-      <R>115</R>
-      <G>221</G>
       <B>126</B>
+      <G>221</G>
+      <R>115</R>
       <A>255</A>
     </Color>
   </Finish>
   
-  <GravityObject>
-    <MapObject>
-      <Size>
-        <X>80</X>
-        <Y>80</Y>
-      </Size>
-      <Trajectory>
-        <Type>Static</Type>
-        <Position>
-          <X>0</X>
-          <Y>0</Y>
-        </Position>
-      </Trajectory>
-      <Color>
-        <A>255</A>
-      </Color>
-    </MapObject>
-    <GravityPower>110</GravityPower>
-  </GravityObject>
-</Level>
+  <GravityObjects>
+    <GravityInfo>
+      <MapObject>
+        <Size>
+          <X>80</X>
+          <Y>80</Y>
+        </Size>
+        <Trajectory>
+          <MovingType>Static</MovingType>
+          <Position>
+            <X>0</X>
+            <Y>0</Y>
+          </Position>
+        </Trajectory>
+        <Color>
+          <A>255</A>
+        </Color>
+      </MapObject>
+      <GravityPower>110</GravityPower>
+    </GravityInfo>
+  </GravityObjects>
+</LevelInfo>

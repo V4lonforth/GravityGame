@@ -2,10 +2,12 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
-using GravityGame;
+using Microsoft.Xna.Framework;
 using GravityGame.Utils;
+using System.Xml.Serialization;
+using GravityGame.Levels;
 
-namespace PuzzleGame
+namespace GravityGame
 {
     [Activity(Label = "GravityGame"
         , MainLauncher = true
@@ -15,7 +17,7 @@ namespace PuzzleGame
         , LaunchMode = LaunchMode.SingleInstance
         , ScreenOrientation = ScreenOrientation.Portrait
         , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
+    public class Activity1 : AndroidGameActivity
     {
         protected override void OnPause()
         {
@@ -27,11 +29,10 @@ namespace PuzzleGame
         }
         protected override void OnCreate(Bundle bundle)
         {
-
             base.OnCreate(bundle);
             var g = new Game1();
 
-            Screen.CreateData(Resources.DisplayMetrics);
+            Screen.CreateData(new Point(Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels));
 
             SetContentView((View)g.Services.GetService(typeof(View)));
             g.Run();

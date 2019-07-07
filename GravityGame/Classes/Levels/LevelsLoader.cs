@@ -7,9 +7,9 @@ namespace GravityGame.Levels
     {
         const string infoPath = "Content/Levels/";
 
-        public T LoadInfo<T>(string fileName)
+        public T LoadInfo<T>(int number)
         {
-            using (Stream stream = Microsoft.Xna.Framework.Game.Activity.Assets.Open(infoPath + fileName + ".xml"))
+            using (Stream stream = Microsoft.Xna.Framework.Game.Activity.Assets.Open(infoPath + "Level" + number.ToString() + ".xml"))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
                 T tInfo = (T)xmlSerializer.Deserialize(stream);
@@ -17,9 +17,9 @@ namespace GravityGame.Levels
             }
         }
 
-        public void Save<T>(string fileName, T data)
+        public void Save<T>(int number, T data)
         {
-            using (StreamWriter stream = new StreamWriter(infoPath + fileName + ".xml"))
+            using (StreamWriter stream = new StreamWriter(infoPath + "Level" + number.ToString() + ".xml"))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
                 xmlSerializer.Serialize(stream, data);
