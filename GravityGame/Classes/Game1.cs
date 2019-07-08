@@ -34,6 +34,7 @@ namespace GravityGame
             base.Initialize();
 
             gameController = new GameController(GraphicsDevice, spriteBatch);
+            gameController.StartLevel(1);
             guiController = new GUIController();
 
             controllers = new List<IController>()
@@ -82,7 +83,7 @@ namespace GravityGame
             foreach (TouchLocation touch in touchCollection)
             {
                 foreach (IController controller in controllers)
-                    if (controller.CheckTouch(touch))
+                    if (controller.CheckInput(touch))
                         break;
             }
         }

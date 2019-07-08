@@ -7,6 +7,6 @@ namespace GravityGame.Controllers
     {
         void Update();
         void Draw(SpriteBatch spriteBatch);
-        bool CheckTouch(TouchLocation touch);
+        bool CheckInput(TouchLocation touch);
     }
 }

@@ -42,7 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classes\Controllers\GameController.cs" />
+    <Compile Include="Classes\Controllers\WindowsGameController.cs" />
     <Compile Include="Classes\Game1.cs" />
     <Compile Include="Classes\Levels\WindowsLevelsLoader.cs" />
     <Compile Include="Classes\Program.cs" />

@@ -30,7 +30,7 @@ namespace GravityGame.GUI
 
         }
 
-        public bool CheckTouch(TouchLocation touch)
+        public bool CheckInput(TouchLocation touch)
         {
             return Root.CheckTouch(touch) || screenLocked;
         }

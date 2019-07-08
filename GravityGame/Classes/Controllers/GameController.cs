@@ -16,8 +16,6 @@ namespace GravityGame.Controllers
     public class GameController : IController
     {
         private GameState gameState;
-        private Level level;
-        private Level nextLevel;
 
         private Drawable lastSentContour;
         private Contour lastTrajectoryContour;
@@ -30,12 +28,15 @@ namespace GravityGame.Controllers
 
         private float currentSwitchingLevelsTime;
 
-        private GraphicsDevice graphicsDevice;
-        private SpriteBatch spriteBatch;
-
         private RenderTarget2D levelRenderTarget;
         private RenderTarget2D playersRenderTarget;
         private RenderTarget2D buffer;
+
+        protected Level level;
+        protected Level nextLevel;
+
+        protected GraphicsDevice graphicsDevice;
+        protected SpriteBatch spriteBatch;
 
         private static Effect blur;
         private static Effect portalMap;
@@ -56,7 +57,6 @@ namespace GravityGame.Controllers
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = spriteBatch;
 
-            level = new Level(1, new LevelsLoader().LoadInfo<LevelInfo>(1), graphicsDevice, spriteBatch);
             gameState = GameState.Playing;
             players = new List<IGameObject>();
             levelRenderTarget = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
@@ -88,52 +88,84 @@ namespace GravityGame.Controllers
             ParticlesDrawer<GravityParticleVertexData>.LoadContent(graphics);
         }
 
-        public bool CheckTouch(TouchLocation touch)
+        public virtual void LoadNextLevel(int number)
+        {
+            nextLevel = new Level(number, new LevelsLoader().LoadInfo<LevelInfo>(number), graphicsDevice, spriteBatch);
+        }
+
+        public void StartLevel(int number)
+        {
+            LoadNextLevel(number);
+            StartNextLevel();
+        }
+
+        public bool CheckInput(TouchLocation touch)
         {
             Vector2 position = touch.Position.ScreenToWorldPosition();
             switch (touch.State)
             {
                 case TouchLocationState.Pressed:
-                    if (!launching && gameState == GameState.Playing && (level.StartPosition - position).LengthSquared() <= StartRadius * StartRadius)
-                    {
-                        launching = true;
+                    if (Press(position))
                         touchId = touch.Id;
-                        launchingPlayerObject = new Player(position);
-                    }
                     break;
                 case TouchLocationState.Moved:
-                    if (launching && touchId == touch.Id)
-                    {
-                        launchingPlayerObject.SetStartingPosition(position, level.StartPosition, level);
-                    }
+                    if (touchId == touch.Id)
+                        Hold(position);
                     break;
                 case TouchLocationState.Released:
-                    if (launching && touchId == touch.Id)
-                    {
-                        lastSentContour.Position = position;
-                        lastTrajectoryContour = launchingPlayerObject.Contour;
-
-                        launchingPlayerObject.SetStartingPosition(position, level.StartPosition, level);
-                        launchingPlayerObject.Launch(level.StartPosition - position);
-                        players.Add(launchingPlayerObject);
-                        launchingPlayerObject = null;
-                        launching = false;
-                    }
+                    if (touchId == touch.Id)
+                        Release(position);
                     break;
             }
             return false;
         }
 
-        private void StartSwitchngLevel()
+        protected bool Press(Vector2 position)
+        {
+            if (!launching && gameState == GameState.Playing && (level.StartPosition - position).LengthSquared() <= StartRadius * StartRadius)
+            {
+                launching = true;
+                launchingPlayerObject = new Player(position);
+                return true;
+            }
+            return false;
+        }
+        protected bool Hold(Vector2 position)
+        {
+            if (launching)
+            {
+                launchingPlayerObject.SetStartingPosition(position, level.StartPosition, level);
+                return true;
+            }
+            return false;
+        }
+        protected bool Release(Vector2 position)
+        {
+            if (launching)
+            {
+                lastSentContour.Position = position;
+                lastTrajectoryContour = launchingPlayerObject.Contour;
+
+                launchingPlayerObject.SetStartingPosition(position, level.StartPosition, level);
+                launchingPlayerObject.Launch(level.StartPosition - position);
+                players.Add(launchingPlayerObject);
+                launchingPlayerObject = null;
+                launching = false;
+                return true;
+            }
+            return false;
+        }
+
+        protected virtual void StartSwitchingLevel()
         {
             launchingPlayerObject = null;
             launching = false;
             gameState = GameState.SwitchingLevels;
-            int number = level.Number + 1 > LevelsCount ? level.Number : level.Number + 1;
-            nextLevel = new Level(number, new LevelsLoader().LoadInfo<LevelInfo>(number), graphicsDevice, spriteBatch);
             lastTrajectoryContour = null;
+            int number = level.Number + 1 > LevelsCount ? level.Number : level.Number + 1;
+            LoadNextLevel(number);
         }
-        private void SwitchLevel()
+        private void StartNextLevel()
         {
             level = nextLevel;
             nextLevel = null;
@@ -168,14 +200,14 @@ namespace GravityGame.Controllers
             {
                 case GameState.Playing:
                     if (level.FinishObject.CheckCollision(players))
-                        StartSwitchngLevel();
+                        StartSwitchingLevel();
                     break;
 
                 case GameState.SwitchingLevels:
                     currentSwitchingLevelsTime += Time.FixedDeltaTime;
                     if (currentSwitchingLevelsTime >= SwitchingLevelsTime)
                     {
-                        SwitchLevel();
+                        StartNextLevel();
                         break;
                     }
                     break;

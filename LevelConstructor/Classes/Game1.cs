@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using LevelConstructor.Controllers;
 using GravityGame.Utils;
+using GravityGame.Controllers;
 
 namespace LevelConstructor
 {
@@ -11,7 +12,7 @@ namespace LevelConstructor
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private GameController gameController;
+        private WindowsGameController gameController;
 
         public Game1()
         {
@@ -32,7 +33,8 @@ namespace LevelConstructor
         {
             base.Initialize();
 
-            gameController = new GameController(GraphicsDevice, spriteBatch);
+            gameController = new WindowsGameController(GraphicsDevice, spriteBatch);
+            gameController.StartLevel(0);
         }
 
         protected override void LoadContent()
@@ -47,7 +49,7 @@ namespace LevelConstructor
 
         protected override void Update(GameTime gameTime)
         {
-            gameController.CheckTouch(Mouse.GetState());
+            gameController.CheckInput(Mouse.GetState());
             gameController.Update();
 
             base.Update(gameTime);
