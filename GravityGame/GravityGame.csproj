@@ -170,7 +170,7 @@
     <None Include="Content\Shaders\GravityParticles.fx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\GameObjects\Star.png" />
+    <None Include="Content\GameObjects\Star.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

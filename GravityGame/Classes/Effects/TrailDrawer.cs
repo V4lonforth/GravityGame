@@ -71,11 +71,6 @@ namespace GravityGame.Effects
             effect.Parameters["width"].SetValue((float)(Screen.ScreenSize.X / 2));
             effect.Parameters["height"].SetValue((float)(Screen.ScreenSize.Y / 2));
         }
-        public static void UpdateEffect()
-        {
-            effect.Parameters["worldMatrix"].SetValue(Screen.SceneMatrix);
-            effect.Parameters["currentTime"].SetValue(Time.CurrentTime);
-        }
 
         public void Launch()
         {
@@ -84,14 +79,14 @@ namespace GravityGame.Effects
                 vertexesData[i].EndPosition = vertexesData[i].StartPosition = Position;
         }
 
-        private void CreateTrail(Vector2 firstPos, Vector2 secondPos)
+        private void CreateTrail(Vector2 firstPos, Vector2 secondPos, Time time)
         {
             Vector2 direction = (secondPos - firstPos).Normalized(out float length);
             Vector2 normal = Vector2.UnitY.Rotate(direction);
 
-            vertexesData[index] = new TrailVertexData(secondPos + normal * width, secondPos, Time.CurrentTime + TrailTime);
-            vertexesData[index + 1] = new TrailVertexData(secondPos, secondPos, Time.CurrentTime + TrailTime);
-            vertexesData[index + 2] = new TrailVertexData(secondPos - normal * width, secondPos, Time.CurrentTime + TrailTime);
+            vertexesData[index] = new TrailVertexData(secondPos + normal * width, secondPos, time.CurrentTime + TrailTime);
+            vertexesData[index + 1] = new TrailVertexData(secondPos, secondPos, time.CurrentTime + TrailTime);
+            vertexesData[index + 2] = new TrailVertexData(secondPos - normal * width, secondPos, time.CurrentTime + TrailTime);
 
             Vector2 previousLeft = vertexesData[(index - 3 + VertexesCount) % VertexesCount].StartPosition;
             Vector2 previousRight = vertexesData[(index - 1 + VertexesCount) % VertexesCount].StartPosition;
@@ -119,11 +114,16 @@ namespace GravityGame.Effects
             vertexesData[index] = vertexesData[index + 1] = vertexesData[index + 2] = new TrailVertexData(end, end, 0f);
             index = (index + 3) % VertexesCount;
         }
-        public void Update()
+
+        public void Update(Time time)
         {
-            CreateTrail(Position, parent.Position);
+            effect.Parameters["worldMatrix"].SetValue(Screen.SceneMatrix);
+            effect.Parameters["currentTime"].SetValue(time.CurrentTime);
+
+            CreateTrail(Position, parent.Position, time);
             Position = parent.Position;
         }
+
         public void Draw()
         {
             effect.Parameters["color"].SetValue(color.ToVector4());

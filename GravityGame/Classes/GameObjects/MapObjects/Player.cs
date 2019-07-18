@@ -26,7 +26,7 @@ namespace GravityGame.GameObjects.MapObjects
         private static Texture2D defaultSprite;
         private static Vector2 size = new Vector2(50);
 
-        private const float launchKoeff = 2f;
+        private const float launchKoeff = 0.5f;
 
         public Player(Vector2 position, SpriteEffects spriteEffects = SpriteEffects.None, float depth = 0.5F) 
             : base(defaultSprite, position, size, 0f, new Color(62, 181, 241), spriteEffects, depth)
@@ -45,15 +45,15 @@ namespace GravityGame.GameObjects.MapObjects
         public void SetStartingPosition(Vector2 position, Vector2 startPosition, Level level)
         {
             Position = position;
-            Contour.CreateContour(GetTrajectory(startPosition, level));
+            Contour.CreateContour(GetTrajectory(startPosition, level, level.Time.Copy()));
             launching = true;
         }
 
-        private List<List<Vector2>> GetTrajectory(Vector2 startPosition, Level level)
+        private List<List<Vector2>> GetTrajectory(Vector2 startPosition, Level level, Time time)
         {
             Vector2 position = Position;
 
-            Launch(startPosition - Position);
+            Launch(startPosition, Position);
             launching = true;
             float distance = 0f;
             int sectionNumber = 0;
@@ -63,7 +63,8 @@ namespace GravityGame.GameObjects.MapObjects
             while (distance < Contour.TrajectoryLength && sectionNumber < Contour.TrajectorySections)
             {
                 level.UpdatePlayer(this);
-                Update();
+                time.Update();
+                Update(time);
                 if (State != PlayerState.Teleported)
                 {
                     distance += (Position - lastPosition).Length();
@@ -83,10 +84,11 @@ namespace GravityGame.GameObjects.MapObjects
             return trajectory;
         }
 
-        public void Launch(Vector2 velocity)
+        public void Launch(Vector2 startPosition, Vector2 launchPosition)
         {
             launching = false;
-            Velocity = velocity * launchKoeff;
+            Velocity = (startPosition - launchPosition) * launchKoeff;
+            Position = startPosition;
             trail.Launch();
             State = PlayerState.Free;
         }
@@ -122,13 +124,14 @@ namespace GravityGame.GameObjects.MapObjects
             return localPosition.Rotate(portal.NextPortal.Rotation) + portal.NextPortal.Position;
         }
 
-        public new void Update()
+        public void Update(Time time)
         {
-            Position += Velocity * Time.FixedDeltaTime;
+            Position += Velocity * time.FixedDeltaTime;
+        }
 
-            if (!launching)
-                trail.Update();
-            base.Update();
+        public void UpdateEffects(Time time)
+        {
+            trail.Update(time);
         }
 
         public new void Draw(SpriteBatch spriteBatch)

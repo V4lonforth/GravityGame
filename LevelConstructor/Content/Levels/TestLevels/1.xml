@@ -33,16 +33,11 @@
           <Y>60</Y>
         </Size>
         <Trajectory>
-          <MovingType>Linear</MovingType>
-          <FirstPosition>
+          <MovingType>Static</MovingType>
+          <Position>
             <X>0</X>
             <Y>-150</Y>
-          </FirstPosition>
-          <SecondPosition>
-            <X>0</X>
-            <Y>150</Y>
-          </SecondPosition>
-          <LinearPeriod>2</LinearPeriod>
+          </Position>
         </Trajectory>
         <Color>
           <A>255</A>
@@ -50,7 +45,7 @@
       </MapObject>
       <GravityPower>120</GravityPower>
     </GravityInfo>
-    <!--GravityInfo>
+    <GravityInfo>
       <MapObject>
         <Size>
           <X>60</X>
@@ -68,7 +63,7 @@
         </Color>
       </MapObject>
       <GravityPower>120</GravityPower>
-    </GravityInfo-->
+    </GravityInfo>
   </GravityObjects>
 
   <Stars>

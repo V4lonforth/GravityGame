@@ -12,6 +12,9 @@ namespace GravityGame.Levels
 {
     public class Level
     {
+        public List<IGameObject> players;
+        public Time Time { get; }
+
         public int Number { get; }
         public Vector2 StartPosition { get; }
         public Gravity[] GravityObjects { get; }
@@ -26,6 +29,8 @@ namespace GravityGame.Levels
 
         public Level(int number, LevelInfo info, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
+            Time = new Time();
+            players = new List<IGameObject>();
             Number = number;
 
             GameObjects = new List<IGameObject>();
@@ -69,17 +74,6 @@ namespace GravityGame.Levels
             DrawPortalMap(graphicsDevice, spriteBatch);
         }
 
-        private void DrawPortalMap(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
-        {
-            PortalMap = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
-            graphicsDevice.SetRenderTarget(PortalMap);
-            graphicsDevice.Clear(Color.White);
-            spriteBatch.Begin(transformMatrix: Screen.SceneMatrix);
-            foreach (Portal portal in Portals)
-                portal.DrawMap(spriteBatch);
-            spriteBatch.End();
-        }
-
         private IMovingTrajectory GetMovingTrajectory(MovingTrajectoryInfo trajectory)
         {
             IMovingTrajectory movingTrajectory = null;
@@ -98,12 +92,30 @@ namespace GravityGame.Levels
             return movingTrajectory;
         }
 
-        private void CalculateForce(Player player)
+        public void AddPlayer(Player player)
+        {
+            players.Add(player);
+            GameObjects.Add(player);
+        }
+        public void RemovePlayer(Player player)
+        {
+            players.Remove(player);
+            GameObjects.Remove(player);
+        }
+
+        private void CheckStars()
+        {
+            foreach (IGameObject player in players)
+                foreach (Star star in Stars)
+                    star.TryGainStar(player);
+        }
+
+        private void CalculateForce(Player player, Time time)
         {
             Vector2 force = Vector2.Zero;
             foreach (Gravity gravityObject in GravityObjects)
                 force += gravityObject.CalculateForce(player.Position);
-            player.Velocity += force * Time.FixedDeltaTime;
+            player.Velocity += force * time.FixedDeltaTime;
         }
         private void Collide(Player player)
         {
@@ -113,20 +125,64 @@ namespace GravityGame.Levels
 
         public void UpdatePlayer(Player player)
         {
-            CalculateForce(player);
+            CalculateForce(player, Time);
             Collide(player);
+        }
+
+        public bool CheckFinish()
+        {
+            return FinishObject.CheckCollision(players);
+        }
+
+        public void UpdatePlayerObjects()
+        {
+            foreach (Player player in players)
+            {
+                UpdatePlayer(player);
+                player.Update(Time);
+            }
+
+            Update();
         }
 
         public void Update()
         {
+            Time.Update();
             foreach (IGameObject gameObject in GameObjects)
-                gameObject.Update();
+                gameObject.Update(Time);
+            CheckStars();
+        }
+
+        public void UpdateEffects()
+        {
+            foreach (IGameObject gameObject in GameObjects)
+                gameObject.UpdateEffects(Time);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (IGameObject gameObject in GameObjects)
                 gameObject.Draw(spriteBatch);
+        }
+
+        public void DrawPlayers(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: Screen.SceneMatrix);
+            foreach (Player player in players)
+                if (player.State != PlayerState.Free)
+                    player.Draw(spriteBatch);
+            spriteBatch.End();
+        }
+
+        private void DrawPortalMap(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            PortalMap = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
+            graphicsDevice.SetRenderTarget(PortalMap);
+            graphicsDevice.Clear(Color.White);
+            spriteBatch.Begin(transformMatrix: Screen.SceneMatrix);
+            foreach (Portal portal in Portals)
+                portal.DrawMap(spriteBatch);
+            spriteBatch.End();
         }
     }
 }

@@ -48,13 +48,15 @@ namespace GravityGame.Effects.GravityEffects
             effect.Parameters["height"].SetValue((float)(Screen.ScreenSize.Y / 2));
             effect.Parameters["acceleration"].SetValue(Acceleration);
         }
-        public static void UpdateEffect()
+
+        public new void Update(Time time)
         {
+            base.Update(time);
             effect.Parameters["worldMatrix"].SetValue(Screen.SceneMatrix);
-            effect.Parameters["currentTime"].SetValue(Time.CurrentTime);
+            effect.Parameters["currentTime"].SetValue(time.CurrentTime);
         }
 
-        protected override void CreateParticle()
+        protected override void CreateParticle(Time time)
         {
             float angle = floatRandom.NextFloat(2f * (float)Math.PI);
             float distance = floatRandom.NextFloat(MinSpawnDistance, MaxSpawnDistance);
@@ -65,9 +67,9 @@ namespace GravityGame.Effects.GravityEffects
             Vector2[] vertexes = CreateTriangle();
             AddVertexesData(new GravityParticleVertexData[]
             {
-                new GravityParticleVertexData(vertexes[0], distance, angle, centerRotationAcceleration, vertexRotationAcceleration, Time.CurrentTime),
-                new GravityParticleVertexData(vertexes[1], distance, angle, centerRotationAcceleration, vertexRotationAcceleration, Time.CurrentTime),
-                new GravityParticleVertexData(vertexes[2], distance, angle, centerRotationAcceleration, vertexRotationAcceleration, Time.CurrentTime)
+                new GravityParticleVertexData(vertexes[0], distance, angle, centerRotationAcceleration, vertexRotationAcceleration, time.CurrentTime),
+                new GravityParticleVertexData(vertexes[1], distance, angle, centerRotationAcceleration, vertexRotationAcceleration, time.CurrentTime),
+                new GravityParticleVertexData(vertexes[2], distance, angle, centerRotationAcceleration, vertexRotationAcceleration, time.CurrentTime)
             });
         }
 

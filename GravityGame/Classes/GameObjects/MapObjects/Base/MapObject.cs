@@ -5,7 +5,7 @@ using GravityGame.Utils;
 
 namespace GravityGame.GameObjects.MapObjects.Base
 {
-    public class MapObject : Drawable, IGameObject
+    public class MapObject : Drawable
     {
         private IMovingTrajectory movingTrajectory;
 
@@ -15,10 +15,9 @@ namespace GravityGame.GameObjects.MapObjects.Base
             this.movingTrajectory = movingTrajectory;
         }
 
-        public new void Update()
+        public void Update(Time time)
         {
-            Position = movingTrajectory.GetPosition(Time.FixedDeltaTime);
-            base.Update();
+            Position = movingTrajectory.GetPosition(time.CurrentTime);
         }
     }
 }

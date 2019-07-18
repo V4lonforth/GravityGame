@@ -15,8 +15,8 @@ namespace GravityGame.Effects
         private static Color color = Color.Black;
         private static Texture2D sprite;
 
-        public const int TrajectorySections = 120;
-        public const float TrajectoryLength = 1000f;
+        public static int TrajectorySections = 120;
+        public static float TrajectoryLength = 1000f;
         private const float TrajectoryWidth = 5f;
 
         public Contour()

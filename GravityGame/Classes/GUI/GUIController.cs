@@ -9,6 +9,7 @@ namespace GravityGame.GUI
     public class GUIController : IController
     {
         private IGUIElement Root { get; set; }
+        private Time time;
 
         private bool screenLocked;
 
@@ -17,6 +18,7 @@ namespace GravityGame.GUI
         public GUIController()
         {
             Root = new GUIElement();
+            time = new Time();
         }
 
         public static void LoadContent(ContentManager Content)
@@ -37,7 +39,7 @@ namespace GravityGame.GUI
 
         public void Update()
         {
-            Root.Update();
+            Root.Update(time);
         }
         public void Draw(SpriteBatch spriteBatch)
         {

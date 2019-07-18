@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using GravityGame.GameObjects.MapObjects.Base;
 using GravityGame.GameObjects.Base;
 using GravityGame.Effects.PortalEffects;
+using GravityGame.Utils;
 
 namespace GravityGame.GameObjects.MapObjects
 {
@@ -47,7 +48,7 @@ namespace GravityGame.GameObjects.MapObjects
                 polygon.Collide(player);
             }
 
-            public new void Update()
+            public void Update()
             {
                 Rotation = localRotation + portal.Rotation;
                 Position = localPosition.Rotate(Rotation) + portal.Position;
@@ -76,7 +77,6 @@ namespace GravityGame.GameObjects.MapObjects
 
             polygon = new Polygon(Vector2.Zero, size, 0f);
             particlesDrawer = new PortalParticlesDrawer(this, Color);
-            Update();
         }
 
         public static void LoadContent(ContentManager content)
@@ -121,13 +121,17 @@ namespace GravityGame.GameObjects.MapObjects
             }
         }
 
-        public new void Update()
+        public new void Update(Time time)
         {
-            base.Update();
+            base.Update(time);
             topFrame.Update();
             bottomFrame.Update();
             polygon.Update(Position, Rotation);
-            particlesDrawer.Update();
+        }
+
+        public void UpdateEffects(Time time)
+        {
+            particlesDrawer.Update(time);
         }
 
         public new void Draw(SpriteBatch spriteBatch)

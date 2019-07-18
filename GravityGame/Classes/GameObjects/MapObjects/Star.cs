@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GravityGame.GameObjects.MapObjects.Base;
 using GravityGame.GameObjects.Base;
+using GravityGame.Utils;
 
 namespace GravityGame.GameObjects.MapObjects
 {
@@ -46,6 +47,10 @@ namespace GravityGame.GameObjects.MapObjects
         {
             if (players.Count == 0)
                 base.Draw(spriteBatch);
+        }
+
+        public void UpdateEffects(Time time)
+        {
         }
     }
 }

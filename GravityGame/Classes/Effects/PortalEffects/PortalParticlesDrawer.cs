@@ -49,13 +49,15 @@ namespace GravityGame.Effects.PortalEffects
             effect.Parameters["height"].SetValue((float)(Screen.ScreenSize.Y / 2));
             effect.Parameters["duration"].SetValue(LifeTime);
         }
-        public static void UpdateEffect()
+
+        public new void Update(Time time)
         {
+            base.Update(time);
             effect.Parameters["worldMatrix"].SetValue(Screen.SceneMatrix);
-            effect.Parameters["currentTime"].SetValue(Time.CurrentTime);
+            effect.Parameters["currentTime"].SetValue(time.CurrentTime);
         }
 
-        protected override void CreateParticle()
+        protected override void CreateParticle(Time time)
         {
             Vector2 position = portal.Position + new Vector2(floatRandom.NextFloat(portal.Size.X / 2f), floatRandom.NextFloat(-portal.Size.Y / 2f, portal.Size.Y / 2f)).Rotate(portal.Rotation);
             float angle = floatRandom.NextFloat(-MaxSpeedAngle, MaxSpeedAngle);
@@ -67,9 +69,9 @@ namespace GravityGame.Effects.PortalEffects
             Vector2[] vertexes = CreateTriangle();
             AddVertexesData(new PortalParticleVertexData[]
             {
-                new PortalParticleVertexData(position, vertexes[0], speed, rotationSpeed, Time.CurrentTime, particleColor),
-                new PortalParticleVertexData(position, vertexes[1], speed, rotationSpeed, Time.CurrentTime, particleColor),
-                new PortalParticleVertexData(position, vertexes[2], speed, rotationSpeed, Time.CurrentTime, particleColor)
+                new PortalParticleVertexData(position, vertexes[0], speed, rotationSpeed, time.CurrentTime, particleColor),
+                new PortalParticleVertexData(position, vertexes[1], speed, rotationSpeed, time.CurrentTime, particleColor),
+                new PortalParticleVertexData(position, vertexes[2], speed, rotationSpeed, time.CurrentTime, particleColor)
             }); 
         }
     }

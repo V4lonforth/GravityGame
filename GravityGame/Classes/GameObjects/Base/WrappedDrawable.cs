@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GravityGame.GameObjects.Base
 {
-    public class WrappedDrawable : Drawable, IGameObject
+    public class WrappedDrawable : Drawable
     {
         public float StartWidth { get; set; }
 

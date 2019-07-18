@@ -4,6 +4,6 @@ namespace GravityGame.GameObjects.MapObjects.Base
 {
     public interface IMovingTrajectory
     {
-        Vector2 GetPosition(float deltaTime);
+        Vector2 GetPosition(float time);
     }
 }

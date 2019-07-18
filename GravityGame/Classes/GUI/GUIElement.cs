@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using GravityGame.GameObjects.Base;
 using GravityGame.GUI.Animation;
+using GravityGame.Utils;
 
 namespace GravityGame.GUI
 {
@@ -75,13 +76,13 @@ namespace GravityGame.GUI
             return false;
         }
 
-        public new void Update()
+        public void Update(Time time)
         {
             if (animation != null)
                 animation.Update();
 
             foreach (IGUIElement element in childs)
-                element.Update();
+                element.Update(time);
         }
 
         public new void Draw(SpriteBatch spriteBatch)
@@ -90,6 +91,10 @@ namespace GravityGame.GUI
 
             foreach (IGUIElement element in childs)
                 element.Draw(spriteBatch);
+        }
+
+        public void UpdateEffects(Time time)
+        {
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GravityGame.Utils;
 
 namespace GravityGame.GameObjects.Base
 {
@@ -17,6 +18,7 @@ namespace GravityGame.GameObjects.Base
         bool CheckCollision(List<IGameObject> drawables);
 
         void Draw(SpriteBatch spriteBatch);
-        void Update();
+        void UpdateEffects(Time time);
+        void Update(Time time);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using LevelConstructor.Controllers;
 using GravityGame.Utils;
 using GravityGame.Controllers;
+using GravityGame.Effects;
 
 namespace LevelConstructor
 {
@@ -32,6 +33,9 @@ namespace LevelConstructor
         protected override void Initialize()
         {
             base.Initialize();
+
+            Contour.TrajectoryLength = 5000f;
+            Contour.TrajectorySections = 600;
 
             gameController = new WindowsGameController(GraphicsDevice, spriteBatch);
             gameController.StartLevel(0);

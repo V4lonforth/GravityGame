@@ -44,6 +44,7 @@ namespace LevelConstructor.Controllers
         {
             base.StartSwitchingLevel();
             nextLevel = new Level(0, new WindowsLevelsLoader().LoadInfo<LevelInfo>(), graphicsDevice, spriteBatch);
+            currentSwitchingLevelsTime = SwitchingLevelsTime;
         }
 
         public new void Update()

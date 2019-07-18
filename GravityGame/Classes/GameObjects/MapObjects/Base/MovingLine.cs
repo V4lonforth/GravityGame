@@ -9,20 +9,19 @@ namespace GravityGame.GameObjects.MapObjects.Base
         private Vector2 position1;
         private Vector2 position2;
         private float period;
-        private float time;
+        private float startTime;
 
         public MovingLine(Vector2 position1, Vector2 position2, float period, float startTime = 0f)
         {
             this.position1 = position1;
             this.position2 = position2;
             this.period = period;
-            time = startTime;
+            this.startTime = startTime;
         }
 
-        public Vector2 GetPosition(float deltaTime)
+        public Vector2 GetPosition(float time)
         {
-            time += deltaTime;
-            float pos = (float)((Math.Sin(time) + 1d) / 2d);
+            float pos = (float)((Math.Sin((time - startTime) * Math.PI / period) + 1d) / 2d);
             return Functions.Interpolate(position1, position2, pos);
         }
     }

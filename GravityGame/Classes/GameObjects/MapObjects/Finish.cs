@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GravityGame.GameObjects.MapObjects.Base;
+using GravityGame.GameObjects.Base;
+using GravityGame.Utils;
 
 namespace GravityGame.GameObjects.MapObjects
 {
-    public class Finish : MapObject
+    public class Finish : MapObject, IGameObject
     {
         private static Texture2D defaultSprite;
         private static Color defaultColor = new Color(115, 221, 126);
@@ -18,6 +20,10 @@ namespace GravityGame.GameObjects.MapObjects
         public static void LoadContent(ContentManager content)
         {
             defaultSprite = content.Load<Texture2D>("GameObjects/Circle");
+        }
+
+        public void UpdateEffects(Time time)
+        {
         }
     }
 }

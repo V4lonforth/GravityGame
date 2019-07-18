@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GravityGame.GameObjects.Base;
 using GravityGame.GameObjects.MapObjects.Base;
 using GravityGame.Effects.GravityEffects;
+using GravityGame.Utils;
 
 namespace GravityGame.GameObjects.MapObjects
 {
@@ -37,10 +38,9 @@ namespace GravityGame.GameObjects.MapObjects
             return direction * (gravityPower / (distance * distance) * forceKoeff);
         }
 
-        public new void Update()
+        public void UpdateEffects(Time time)
         {
-            base.Update();
-            particlesDrawer.Update();
+            particlesDrawer.Update(time);
         }
 
         public new void Draw(SpriteBatch spriteBatch)

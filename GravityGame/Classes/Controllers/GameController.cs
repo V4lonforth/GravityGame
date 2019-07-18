@@ -21,12 +21,11 @@ namespace GravityGame.Controllers
         private Contour lastTrajectoryContour;
 
         private Player launchingPlayerObject;
-        private List<IGameObject> players;
 
         private bool launching;
         private int touchId;
 
-        private float currentSwitchingLevelsTime;
+        protected float currentSwitchingLevelsTime;
 
         private RenderTarget2D levelRenderTarget;
         private RenderTarget2D playersRenderTarget;
@@ -47,7 +46,7 @@ namespace GravityGame.Controllers
         private static Texture2D dottedLineCircleSprite;
         private static Vector2 dottedLineCircleSize = new Vector2(50);
 
-        private const float SwitchingLevelsTime = 4f;
+        protected const float SwitchingLevelsTime = 4f;
         private const float StartRadius = 300f;
 
         private const int LevelsCount = 8;
@@ -58,7 +57,6 @@ namespace GravityGame.Controllers
             this.spriteBatch = spriteBatch;
 
             gameState = GameState.Playing;
-            players = new List<IGameObject>();
             levelRenderTarget = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
             playersRenderTarget = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
             buffer = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
@@ -147,8 +145,8 @@ namespace GravityGame.Controllers
                 lastTrajectoryContour = launchingPlayerObject.Contour;
 
                 launchingPlayerObject.SetStartingPosition(position, level.StartPosition, level);
-                launchingPlayerObject.Launch(level.StartPosition - position);
-                players.Add(launchingPlayerObject);
+                launchingPlayerObject.Launch(level.StartPosition, position);
+                level.AddPlayer(launchingPlayerObject);
                 launchingPlayerObject = null;
                 launching = false;
                 return true;
@@ -169,42 +167,29 @@ namespace GravityGame.Controllers
         {
             level = nextLevel;
             nextLevel = null;
-            players.Clear();
             gameState = GameState.Playing;
             currentSwitchingLevelsTime = 0f;
         }
 
         private void RemovePlayer(Player player)
         {
-            players.Remove(player);
             foreach (Star star in level.Stars)
                 star.RemovePlayer(player);
         }
 
-        private void CheckStars()
-        {
-            foreach (IGameObject player in players)
-                foreach (Star star in level.Stars)
-                    star.TryGainStar(player);
-        }
-
         public void Update()
         {
-            TrailDrawer.UpdateEffect();
-            PortalParticlesDrawer.UpdateEffect();
-            GravityParticlesDrawer.UpdateEffect();
-            Time.Update();
-            UpdatePlayerObjects();
-            CheckStars();
+            level.UpdatePlayerObjects();
+            level.UpdateEffects();
             switch (gameState)
             {
                 case GameState.Playing:
-                    if (level.FinishObject.CheckCollision(players))
+                    if (level.CheckFinish())
                         StartSwitchingLevel();
                     break;
 
                 case GameState.SwitchingLevels:
-                    currentSwitchingLevelsTime += Time.FixedDeltaTime;
+                    currentSwitchingLevelsTime += level.Time.FixedDeltaTime;
                     if (currentSwitchingLevelsTime >= SwitchingLevelsTime)
                     {
                         StartNextLevel();
@@ -214,16 +199,6 @@ namespace GravityGame.Controllers
             }
         }
         
-        private void UpdatePlayerObjects()
-        {
-            foreach (Player player in players)
-            {
-                level.UpdatePlayer(player);
-                player.Update();
-            }
-
-            level.Update();
-        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -268,11 +243,7 @@ namespace GravityGame.Controllers
         {
             graphicsDevice.SetRenderTarget(playersRenderTarget);
             graphicsDevice.Clear(emptyColor);
-            spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: Screen.SceneMatrix);
-            foreach (Player player in players)
-                if (player.State != PlayerState.Free)
-                    player.Draw(spriteBatch);
-            spriteBatch.End();
+            level.DrawPlayers(spriteBatch);
 
             graphicsDevice.SetRenderTarget(buffer);
             graphicsDevice.Clear(emptyColor);
@@ -287,11 +258,7 @@ namespace GravityGame.Controllers
             spriteBatch.Draw(buffer, Screen.ScreenRect, Color.White);
             spriteBatch.End();
 
-            spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: Screen.SceneMatrix);
-            foreach (Player player in players)
-                if (player.State == PlayerState.Free)
-                    player.Draw(spriteBatch);
-            spriteBatch.End();
+            level.DrawPlayers(spriteBatch);
         }
         private void DrawPostEffect(SpriteBatch spriteBatch, RenderTarget2D renderTarget, float offsetX = 0)
         {

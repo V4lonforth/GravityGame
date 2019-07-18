@@ -1,11 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace GravityGame.GameObjects.Base
 {
-    public class Drawable : IGameObject
+    public class Drawable
     {
         protected Texture2D sprite;
 
@@ -66,10 +65,6 @@ namespace GravityGame.GameObjects.Base
         {
             if (sprite != null)
                 spriteBatch.Draw(sprite, Position, null, Color, Rotation, Center, Scale, spriteEffects, depth);
-        }
-
-        public void Update()
-        {
         }
     }
 }

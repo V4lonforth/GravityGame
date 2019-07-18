@@ -76,14 +76,13 @@ namespace GravityGame.Effects
             index = (index + vertexes.Length) % vertexesCount;
         }
 
-        protected abstract void CreateParticle();
+        protected abstract void CreateParticle(Time time);
 
-        public void Update()
+        public void Update(Time time)
         {
-            timeToCreate -= Time.FixedDeltaTime;
-            while (timeToCreate <= 0f)
+            while (time.CurrentTime >= timeToCreate)
             {
-                CreateParticle();
+                CreateParticle(time);
                 timeToCreate += creationTime;
             }
         }
