@@ -86,7 +86,6 @@
     <Compile Include="Classes\GameObjects\MapObjects\Finish.cs" />
     <Compile Include="Classes\GameObjects\MapObjects\Gravity.cs" />
     <Compile Include="Classes\GameObjects\MapObjects\Player.cs" />
-    <Compile Include="Classes\GameObjects\MapObjects\PlayerState.cs" />
     <Compile Include="Classes\GameObjects\MapObjects\Portal.cs" />
     <Compile Include="Classes\GUI\Animation\IGUIAnimation.cs" />
     <Compile Include="Classes\GUI\Button.cs" />

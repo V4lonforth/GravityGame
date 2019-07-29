@@ -91,34 +91,18 @@ namespace GravityGame.GameObjects.MapObjects
             topFrame.Collide(player);
             bottomFrame.Collide(player);
 
-            if (player.State == PlayerState.Free)
+            if (polygon.CheckCollision(player, out Vector2 hit))
             {
-                if (polygon.CheckCollision(player, out Vector2 hit))
-                {
-                    if (Vector2.Dot(player.Velocity, new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation))) < 0f)
-                        player.StartTeleporting(this);
-                    else
-                    {
-                        polygon.Collide(player);
-                        return;
-                    }
-                }
-            }
-            if (player.Portal != this)
-                return;
-            if (player.State == PlayerState.StartedTeleporting)
-            {
-                if (Vector2.Dot(player.Velocity, Position - player.Position) < 0f)
-                    player.Teleport();
+                if (CheckDirection(player))
+                    player.SetPortal(this);
                 else
-                    return;
+                    player.Teleport();
             }
-            else if (player.State == PlayerState.Teleported)
-            {
-                player.StartEndingTeleporting();
-                if (!polygon.CheckCollision(player, out Vector2 hit))
-                    player.EndTeleporting();
-            }
+        }
+
+        private bool CheckDirection(Player player)
+        {
+            return Vector2.Dot(player.Velocity, new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation))) < 0f;
         }
 
         public new void Update(Time time)

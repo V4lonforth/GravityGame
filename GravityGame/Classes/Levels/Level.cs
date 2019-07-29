@@ -1,186 +1,222 @@
 ﻿using System.Collections.Generic;
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GravityGame.GameObjects.MapObjects;
-using GravityGame.Levels.MapObjects;
-using GravityGame.GameObjects.MapObjects.Base;
 using GravityGame.GameObjects.Base;
 using GravityGame.Utils;
+using GravityGame.Effects;
 
 namespace GravityGame.Levels
 {
     public class Level
     {
-        public List<IGameObject> players;
-        public Time Time { get; }
+        private Player launchingPlayerObject;
+        private List<IGameObject> players;
+        private Time time;
 
-        public int Number { get; }
-        public Vector2 StartPosition { get; }
-        public Gravity[] GravityObjects { get; }
-        public Portal[] Portals { get; }
-        public Finish FinishObject { get; }
-        public Star[] Stars { get; }
+        private Gravity[] gravityObjects;
+        private Portal[] portals;
+        private Finish finishObject;
+        private Star[] stars;
 
-        public List<IGameObject> GameObjects { get; }
-        public List<ICollider> Colliders { get; }
+        private List<IGameObject> gameObjects;
+        private List<ICollider> colliders;
 
-        public RenderTarget2D PortalMap { get; private set; }
+        private int trajectorySections;
+        private float trajectoryLength;
+        private float launchForce;
+
+        public Contour Contour { get; private set; }
+        public Vector2 startPosition;
+        public int number;
+        public RenderTarget2D portalMap;
 
         public Level(int number, LevelInfo info, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            Time = new Time();
+            this.number = number;
+
+            startPosition = info.PlayerPosition;
+            trajectorySections = info.TrajectorySections;
+            trajectoryLength = info.TrajectoryLength;
+            launchForce = info.LaunchForce;
+
+            finishObject = new Finish(info.Finish.Trajectory.GetMovingTrajectory(), info.Finish.Size, 0f, info.Finish.Color);
+            gravityObjects = info.GetGravityObjects();
+            stars = info.GetStars();
+            portals = info.GetPortals();
+
+            gameObjects = new List<IGameObject>();
+            gameObjects.Add(finishObject);
+            gameObjects.AddRange(gravityObjects);
+            gameObjects.AddRange(stars);
+            gameObjects.AddRange(portals);
+
+            colliders = new List<ICollider>();
+            colliders.AddRange(portals);
+
+            time = new Time();
             players = new List<IGameObject>();
-            Number = number;
-
-            GameObjects = new List<IGameObject>();
-            Colliders = new List<ICollider>();
-
-            StartPosition = info.PlayerPosition;
-            FinishObject = new Finish(GetMovingTrajectory(info.Finish.Trajectory), info.Finish.Size, 0f, info.Finish.Color);
-            GameObjects.Add(FinishObject);
-            GravityObjects = new Gravity[info.GravityObjects == null ? 0 : info.GravityObjects.Length];
-            Stars = new Star[info.Stars == null ? 0 : info.Stars.Length];
-            Portals = new Portal[info.Portals == null ? 0 : info.Portals.Length * 2];
-
-            for (int i = 0; i < GravityObjects.Length; i++)
-            {
-                Gravity gravity = new Gravity(info.GravityObjects[i].GravityPower, GetMovingTrajectory(info.GravityObjects[i].MapObject.Trajectory), info.GravityObjects[i].MapObject.Size, 0f);
-                GravityObjects[i] = gravity;
-                GameObjects.Add(gravity);
-            }
-
-            for (int i = 0; i < Stars.Length; i++)
-            {
-                Star star = new Star(GetMovingTrajectory(info.Stars[i].Trajectory), info.Stars[i].Size, info.Stars[i].Rotation, info.Stars[i].Color);
-                Stars[i] = star;
-                GameObjects.Add(star);
-            }
-
-            for (int i = 0; i < Portals.Length / 2; i++)
-            {
-                Portal first = new Portal(GetMovingTrajectory(info.Portals[i].FirstPortal.Trajectory), info.Portals[i].FirstPortal.Size, info.Portals[i].FirstPortal.Rotation / 180f * (float)Math.PI, info.Portals[i].FirstPortal.Color);
-                Portal second = new Portal(GetMovingTrajectory(info.Portals[i].SecondPortal.Trajectory), info.Portals[i].SecondPortal.Size, info.Portals[i].SecondPortal.Rotation / 180f * (float)Math.PI, info.Portals[i].SecondPortal.Color);
-                first.NextPortal = second;
-                second.NextPortal = first;
-                Portals[i * 2] = first;
-                Portals[i * 2 + 1] = second;
-                GameObjects.Add(first);
-                GameObjects.Add(second);
-                Colliders.Add(first);
-                Colliders.Add(second);
-            }
+            Contour = new Contour(trajectorySections);
 
             DrawPortalMap(graphicsDevice, spriteBatch);
-        }
-
-        private IMovingTrajectory GetMovingTrajectory(MovingTrajectoryInfo trajectory)
-        {
-            IMovingTrajectory movingTrajectory = null;
-            switch (trajectory.MovingType)
-            {
-                case MovingType.Circle:
-                    movingTrajectory = new MovingCircle(trajectory.Center, trajectory.Radius, trajectory.CirclePeriod, trajectory.CircleAngle);
-                    break;
-                case MovingType.Linear:
-                    movingTrajectory = new MovingLine(trajectory.FirstPosition, trajectory.SecondPosition, trajectory.LinearPeriod, trajectory.LinearTime);
-                    break;
-                case MovingType.Static:
-                    movingTrajectory = new MovingStatic(trajectory.Position);
-                    break;
-            }
-            return movingTrajectory;
         }
 
         public void AddPlayer(Player player)
         {
             players.Add(player);
-            GameObjects.Add(player);
         }
         public void RemovePlayer(Player player)
         {
             players.Remove(player);
-            GameObjects.Remove(player);
+            foreach (Star star in stars)
+                star.RemovePlayer(player);
+        }
+
+        public void CreateLaunchingPlayer(Vector2 launchPosition)
+        {
+            launchingPlayerObject = new Player(launchPosition);
+            Contour = new Contour(trajectorySections);
+        }
+        public void SetLaunchPosition(Vector2 launchPosition)
+        {
+            launchingPlayerObject.SetStartPosition(startPosition, launchPosition, launchForce);
+            launchingPlayerObject.Position = launchPosition;
+            Contour.CreateContour(GetTrajectory(launchingPlayerObject, launchPosition));
+        }
+        public void Launch(Vector2 launchPosition)
+        {
+            Contour.CreateContour(GetTrajectory(launchingPlayerObject, launchPosition));
+            launchingPlayerObject.Launch(startPosition, launchPosition, launchForce);
+            AddPlayer(launchingPlayerObject);
+            launchingPlayerObject = null;
+        }
+
+        private List<List<Vector2>> GetTrajectory(Player player, Vector2 launchPosition)
+        {
+            Time tempTime = time.Copy();
+            Vector2 tempPosition = player.Position;
+
+            player.SetStartPosition(startPosition, launchPosition, launchForce);
+
+            float distance = 0f;
+            int sectionNumber = 0;
+            Vector2 lastPosition = startPosition;
+
+            List<List<Vector2>> trajectory = new List<List<Vector2>>() { new List<Vector2>() { lastPosition } };
+            int trajectoryNumber = 0;
+
+            while (distance < trajectoryLength && sectionNumber < trajectorySections)
+            {
+                CheckStars();
+                tempTime.Update();
+                UpdateGameObjects(tempTime);
+                UpdatePlayer(player, tempTime);
+
+                if (player.Teleported)
+                {
+                    trajectoryNumber++;
+                    trajectory.Add(new List<Vector2>() { player.Position });
+                }
+                else
+                {
+                    distance += (player.Position - lastPosition).Length();
+                    trajectory[trajectoryNumber].Add(player.Position);
+                }
+                lastPosition = player.Position;
+                sectionNumber++;
+            }
+
+            player.Position = tempPosition;
+            return trajectory;
         }
 
         private void CheckStars()
         {
             foreach (IGameObject player in players)
-                foreach (Star star in Stars)
+                foreach (Star star in stars)
                     star.TryGainStar(player);
         }
 
         private void CalculateForce(Player player, Time time)
         {
             Vector2 force = Vector2.Zero;
-            foreach (Gravity gravityObject in GravityObjects)
+            foreach (Gravity gravityObject in gravityObjects)
                 force += gravityObject.CalculateForce(player.Position);
             player.Velocity += force * time.FixedDeltaTime;
         }
         private void Collide(Player player)
         {
-            foreach (ICollider collider in Colliders)
+            foreach (ICollider collider in colliders)
                 collider.Collide(player);
         }
 
-        public void UpdatePlayer(Player player)
+        public void UpdatePlayer(Player player, Time time)
         {
-            CalculateForce(player, Time);
+            CalculateForce(player, time);
             Collide(player);
+            player.Update(time);
         }
 
         public bool CheckFinish()
         {
-            return FinishObject.CheckCollision(players);
-        }
-
-        public void UpdatePlayerObjects()
-        {
-            foreach (Player player in players)
-            {
-                UpdatePlayer(player);
-                player.Update(Time);
-            }
-
-            Update();
+            return finishObject.CheckCollision(players);
         }
 
         public void Update()
         {
-            Time.Update();
-            foreach (IGameObject gameObject in GameObjects)
-                gameObject.Update(Time);
+            time.Update();
+            UpdateGameObjects(time);
+            UpdatePlayerObjects(time);
             CheckStars();
+        }
+
+        private void UpdatePlayerObjects(Time time)
+        {
+            foreach (Player player in players)
+                UpdatePlayer(player, time);
+        }
+
+        private void UpdateGameObjects(Time time)
+        {
+            foreach (IGameObject gameObject in gameObjects)
+                gameObject.Update(time);
         }
 
         public void UpdateEffects()
         {
-            foreach (IGameObject gameObject in GameObjects)
-                gameObject.UpdateEffects(Time);
+            foreach (IGameObject gameObject in gameObjects)
+                gameObject.UpdateEffects(time);
+            foreach (IGameObject gameObject in players)
+                gameObject.UpdateEffects(time);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (IGameObject gameObject in GameObjects)
+            foreach (IGameObject gameObject in gameObjects)
                 gameObject.Draw(spriteBatch);
+            if (launchingPlayerObject != null)
+            {
+                launchingPlayerObject.Draw(spriteBatch);
+                Contour.Draw(spriteBatch);
+            }
         }
 
         public void DrawPlayers(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: Screen.SceneMatrix);
             foreach (Player player in players)
-                if (player.State != PlayerState.Free)
+                if (player.IsOutsidePortal)
                     player.Draw(spriteBatch);
             spriteBatch.End();
         }
 
         private void DrawPortalMap(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            PortalMap = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
-            graphicsDevice.SetRenderTarget(PortalMap);
+            portalMap = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
+            graphicsDevice.SetRenderTarget(portalMap);
             graphicsDevice.Clear(Color.White);
             spriteBatch.Begin(transformMatrix: Screen.SceneMatrix);
-            foreach (Portal portal in Portals)
+            foreach (Portal portal in portals)
                 portal.DrawMap(spriteBatch);
             spriteBatch.End();
         }

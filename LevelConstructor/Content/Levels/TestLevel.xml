@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LevelInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TrajectoryLength>6000</TrajectoryLength>
+  <TrajectorySections>720</TrajectorySections>
+  <LaunchForce>0.5</LaunchForce>
+  
   <PlayerPosition>
     <X>0</X>
     <Y>700</Y>

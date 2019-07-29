@@ -15,12 +15,11 @@ namespace GravityGame.Controllers
 {
     public class GameController : IController
     {
+        private Time time;
         private GameState gameState;
 
         private Drawable lastSentContour;
         private Contour lastTrajectoryContour;
-
-        private Player launchingPlayerObject;
 
         private bool launching;
         private int touchId;
@@ -62,6 +61,7 @@ namespace GravityGame.Controllers
             buffer = new RenderTarget2D(graphicsDevice, Screen.ScreenSize.X, Screen.ScreenSize.Y);
 
             lastSentContour = new Drawable(dottedLineCircleSprite, Vector2.Zero, dottedLineCircleSize, 0f);
+            time = new Time();
         }
 
         public static void LoadContent(ContentManager content, GraphicsDevice graphics)
@@ -120,10 +120,10 @@ namespace GravityGame.Controllers
 
         protected bool Press(Vector2 position)
         {
-            if (!launching && gameState == GameState.Playing && (level.StartPosition - position).LengthSquared() <= StartRadius * StartRadius)
+            if (!launching && gameState == GameState.Playing && (level.startPosition - position).LengthSquared() <= StartRadius * StartRadius)
             {
+                level.CreateLaunchingPlayer(position);
                 launching = true;
-                launchingPlayerObject = new Player(position);
                 return true;
             }
             return false;
@@ -132,7 +132,7 @@ namespace GravityGame.Controllers
         {
             if (launching)
             {
-                launchingPlayerObject.SetStartingPosition(position, level.StartPosition, level);
+                level.SetLaunchPosition(position);
                 return true;
             }
             return false;
@@ -142,12 +142,9 @@ namespace GravityGame.Controllers
             if (launching)
             {
                 lastSentContour.Position = position;
-                lastTrajectoryContour = launchingPlayerObject.Contour;
+                lastTrajectoryContour = level.Contour;
 
-                launchingPlayerObject.SetStartingPosition(position, level.StartPosition, level);
-                launchingPlayerObject.Launch(level.StartPosition, position);
-                level.AddPlayer(launchingPlayerObject);
-                launchingPlayerObject = null;
+                level.Launch(position);
                 launching = false;
                 return true;
             }
@@ -156,11 +153,10 @@ namespace GravityGame.Controllers
 
         protected virtual void StartSwitchingLevel()
         {
-            launchingPlayerObject = null;
             launching = false;
             gameState = GameState.SwitchingLevels;
             lastTrajectoryContour = null;
-            int number = level.Number + 1 > LevelsCount ? level.Number : level.Number + 1;
+            int number = level.number + 1 > LevelsCount ? level.number : level.number + 1;
             LoadNextLevel(number);
         }
         private void StartNextLevel()
@@ -171,15 +167,9 @@ namespace GravityGame.Controllers
             currentSwitchingLevelsTime = 0f;
         }
 
-        private void RemovePlayer(Player player)
-        {
-            foreach (Star star in level.Stars)
-                star.RemovePlayer(player);
-        }
-
         public void Update()
         {
-            level.UpdatePlayerObjects();
+            level.Update();
             level.UpdateEffects();
             switch (gameState)
             {
@@ -189,7 +179,7 @@ namespace GravityGame.Controllers
                     break;
 
                 case GameState.SwitchingLevels:
-                    currentSwitchingLevelsTime += level.Time.FixedDeltaTime;
+                    currentSwitchingLevelsTime += time.FixedDeltaTime;
                     if (currentSwitchingLevelsTime >= SwitchingLevelsTime)
                     {
                         StartNextLevel();
@@ -208,8 +198,6 @@ namespace GravityGame.Controllers
 
             spriteBatch.Begin(blendState: BlendState.AlphaBlend, samplerState: SamplerState.LinearWrap, transformMatrix: Screen.SceneMatrix);
             level.Draw(spriteBatch);
-            if (launchingPlayerObject != null)
-                launchingPlayerObject.Draw(spriteBatch);
             if (lastTrajectoryContour != null)
             {
                 lastTrajectoryContour.Draw(spriteBatch);
@@ -247,7 +235,7 @@ namespace GravityGame.Controllers
 
             graphicsDevice.SetRenderTarget(buffer);
             graphicsDevice.Clear(emptyColor);
-            portalMap.Parameters["portalMap"].SetValue(level.PortalMap);
+            portalMap.Parameters["portalMap"].SetValue(level.portalMap);
             spriteBatch.Begin(blendState: BlendState.AlphaBlend, effect: portalMap);
             spriteBatch.Draw(playersRenderTarget, Screen.ScreenRect, Color.White);
             spriteBatch.End();

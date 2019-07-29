@@ -8,6 +8,7 @@ namespace GravityGame.Effects
 {
     public class TrailDrawer
     {
+        private bool active;
         private Color color;
 
         private TrailVertexData[] vertexesData;
@@ -74,6 +75,7 @@ namespace GravityGame.Effects
 
         public void Launch()
         {
+            active = true;
             Position = parent.Position;
             for (int i = 0; i < VertexesCount; i++)
                 vertexesData[i].EndPosition = vertexesData[i].StartPosition = Position;
@@ -107,7 +109,7 @@ namespace GravityGame.Effects
 
             index = (index + 3) % VertexesCount;
         }
-        public void CreateEmptyTrail(Vector2 start, Vector2 end)
+        public void CreateGap(Vector2 start, Vector2 end)
         {
             vertexesData[index] = vertexesData[index + 1] = vertexesData[index + 2] = new TrailVertexData(start, start, 0f);
             index = (index + 3) % VertexesCount;
@@ -126,9 +128,12 @@ namespace GravityGame.Effects
 
         public void Draw()
         {
-            effect.Parameters["color"].SetValue(color.ToVector4());
-            effect.Techniques[0].Passes[0].Apply();
-            graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertexesData, 0, VertexesCount, indices, 0, TrianglesCount - 4);
+            if (active)
+            {
+                effect.Parameters["color"].SetValue(color.ToVector4());
+                effect.Techniques[0].Passes[0].Apply();
+                graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertexesData, 0, VertexesCount, indices, 0, TrianglesCount - 4);
+            }
         }
     }
 }

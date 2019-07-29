@@ -34,8 +34,8 @@ namespace LevelConstructor
         {
             base.Initialize();
 
-            Contour.TrajectoryLength = 5000f;
-            Contour.TrajectorySections = 600;
+            //Contour.TrajectoryLength = 5000f;
+            //Contour.TrajectorySections = 600;
 
             gameController = new WindowsGameController(GraphicsDevice, spriteBatch);
             gameController.StartLevel(0);
