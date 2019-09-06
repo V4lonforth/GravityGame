@@ -150,16 +150,19 @@ namespace GravityGame.Levels
                 collider.Collide(player);
         }
 
-        public void UpdatePlayer(Player player, Time time)
-        {
-            CalculateForce(player, time);
-            Collide(player);
-            player.Update(time);
-        }
-
         public bool CheckFinish()
         {
             return finishObject.CheckCollision(players);
+        }
+        public void CheckGravities()
+        {
+            foreach (Player player in players)
+                foreach (Gravity gravity in gravityObjects)
+                    if (gravity.CheckCollision(player))
+                    {
+                        player.StartDying(gravity, time);
+                        break;
+                    }
         }
 
         public void Update()
@@ -168,6 +171,13 @@ namespace GravityGame.Levels
             UpdateGameObjects(time);
             UpdatePlayerObjects(time);
             CheckStars();
+        }
+
+        public void UpdatePlayer(Player player, Time time)
+        {
+            CalculateForce(player, time);
+            Collide(player);
+            player.Update(time);
         }
 
         private void UpdatePlayerObjects(Time time)

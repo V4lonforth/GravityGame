@@ -174,6 +174,7 @@ namespace GravityGame.Controllers
             switch (gameState)
             {
                 case GameState.Playing:
+                    level.CheckGravities();
                     if (level.CheckFinish())
                         StartSwitchingLevel();
                     break;

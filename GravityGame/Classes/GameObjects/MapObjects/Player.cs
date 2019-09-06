@@ -5,11 +5,15 @@ using Microsoft.Xna.Framework.Content;
 using GravityGame.GameObjects.Base;
 using GravityGame.Effects;
 using GravityGame.Utils;
+using GravityGame.GameObjects.MapObjects.Base;
 
 namespace GravityGame.GameObjects.MapObjects
 {
     public class Player : Drawable, IGameObject
     {
+        private MovingSpiral dyingTrajectory;
+        private Vector2 lastPosition;
+
         private TrailDrawer trail;
         private Drawable mirroredDrawable;
 
@@ -72,11 +76,33 @@ namespace GravityGame.GameObjects.MapObjects
             return localPosition.Rotate(portal.NextPortal.Rotation) + portal.NextPortal.Position;
         }
 
+        public void StartDying(Gravity gravity, Time time)
+        {
+            if (dyingTrajectory != null)
+                return;
+            Vector2 localPosition = lastPosition - gravity.Position;
+            float startRadius = localPosition.Length();
+            float startAngle = (float)Math.Atan2(localPosition.Y, localPosition.X);
+
+            float radiusSpeed = -0.001f * Vector2.Dot(Velocity, localPosition);
+            float angleSpeed = -0.001f * Vector2.Dot(Velocity, new Vector2(localPosition.Y, -localPosition.X)) / startRadius;
+
+            dyingTrajectory = new MovingSpiral(gravity, startRadius, startAngle, radiusSpeed, angleSpeed, time.CurrentTime);
+        }
+
         public void Update(Time time)
         {
-            Teleported = false;
-            Position += Velocity * time.FixedDeltaTime;
-            timeOutsidePortal += time.FixedDeltaTime;
+            if (dyingTrajectory == null)
+            {
+                Teleported = false;
+                Position += Velocity * time.FixedDeltaTime;
+                timeOutsidePortal += time.FixedDeltaTime;
+                lastPosition = Position;
+            }
+            else
+            {
+                Position = dyingTrajectory.GetPosition(time.CurrentTime);
+            }
         }
 
         public void UpdateEffects(Time time)
