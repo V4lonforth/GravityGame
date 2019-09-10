@@ -31,7 +31,7 @@ namespace GravityGame.GameObjects.MapObjects
         public Player(Vector2 position, SpriteEffects spriteEffects = SpriteEffects.None, float depth = 0.5F) 
             : base(defaultSprite, position, size, 0f, new Color(62, 181, 241), spriteEffects, depth)
         {
-            trail = new TrailDrawer(this, new Color(Color * 0.8f, 1f), Radius - 6);
+            trail = new TrailDrawer(this, new Color(Color * 0.8f, 1f), (Size.X - 12f) / 2f);
             mirroredDrawable = new Drawable(defaultSprite, position, size, 0f, new Color(62, 181, 241), spriteEffects, depth);
         }
 
@@ -80,28 +80,39 @@ namespace GravityGame.GameObjects.MapObjects
         {
             if (dyingTrajectory != null)
                 return;
+            Vector2 currentLocalPosition = Position - gravity.Position;
+            float startRadius = currentLocalPosition.Length();
+            float startAngle = (float)Math.Atan2(currentLocalPosition.Y, currentLocalPosition.X);
+
             Vector2 localPosition = lastPosition - gravity.Position;
-            float startRadius = localPosition.Length();
-            float startAngle = (float)Math.Atan2(localPosition.Y, localPosition.X);
+            float radiusSpeed = -Vector2.Dot(Velocity, localPosition);
+            float angleSpeed = -Vector2.Dot(Velocity, new Vector2(localPosition.Y, -localPosition.X)) / startRadius;
 
-            float radiusSpeed = -0.001f * Vector2.Dot(Velocity, localPosition);
-            float angleSpeed = -0.001f * Vector2.Dot(Velocity, new Vector2(localPosition.Y, -localPosition.X)) / startRadius;
-
-            dyingTrajectory = new MovingSpiral(gravity, startRadius, startAngle, radiusSpeed, angleSpeed, time.CurrentTime);
+            dyingTrajectory = new MovingSpiral(gravity, lastPosition, Position, Velocity, time.CurrentTime);
         }
 
         public void Update(Time time)
         {
+            lastPosition = Position;
             if (dyingTrajectory == null)
             {
                 Teleported = false;
                 Position += Velocity * time.FixedDeltaTime;
                 timeOutsidePortal += time.FixedDeltaTime;
-                lastPosition = Position;
             }
             else
             {
+                //if (decreasing)
+                //    Size *= 0.9f;
+                //else if (Size.X <= size.X * 3.5f)
+                //    Size *= 1.1f;
+                //else
+                //    decreasing = true;
+
+                //Color *= 0.97f;
                 Position = dyingTrajectory.GetPosition(time.CurrentTime);
+                Size = size * dyingTrajectory.Size;
+                trail.Width = (size.X - 12f) / 2f * dyingTrajectory.Size;
             }
         }
 
