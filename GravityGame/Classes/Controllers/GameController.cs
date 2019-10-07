@@ -46,7 +46,6 @@ namespace GravityGame.Controllers
         private static Vector2 dottedLineCircleSize = new Vector2(50);
 
         protected const float SwitchingLevelsTime = 4f;
-        private const float StartRadius = 300f;
 
         private const int LevelsCount = 8;
 
@@ -120,7 +119,7 @@ namespace GravityGame.Controllers
 
         protected bool Press(Vector2 position)
         {
-            if (!launching && gameState == GameState.Playing && (level.startPosition - position).LengthSquared() <= StartRadius * StartRadius)
+            if (!launching && gameState == GameState.Playing && level.LaunchArea.Contains(position))
             {
                 level.CreateLaunchingPlayer(position);
                 launching = true;
@@ -141,7 +140,7 @@ namespace GravityGame.Controllers
         {
             if (launching)
             {
-                lastSentContour.Position = position;
+                lastSentContour.Position = level.LaunchArea.Clamp(position);
                 lastTrajectoryContour = level.Contour;
 
                 level.Launch(position);

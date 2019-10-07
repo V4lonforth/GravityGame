@@ -132,13 +132,13 @@ namespace GravityGame.Effects
             {
                 effect.Parameters["color"].SetValue(color.ToVector4());
                 effect.Techniques[0].Passes[0].Apply();
-                if (index == 0)
+                if (index <= 3)
                 {
-                    graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertexesData, 0, VertexesCount, indexes, 0, TrianglesCount);
+                    graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertexesData, 0, VertexesCount, indexes, 12, TrianglesCount - 8);
                 }
                 else
                 {
-                    graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertexesData, 0, VertexesCount, indexes, 0, index / 3 * 4);
+                    graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertexesData, 0, VertexesCount, indexes, 0, index / 3 * 4 - 4);
                     graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertexesData, 0, VertexesCount, indexes, index / 3 * 12, TrianglesCount - index / 3 * 4);
                 }
             }

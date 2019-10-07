@@ -26,8 +26,14 @@ namespace GravityGame.Levels
         private float trajectoryLength;
         private float launchForce;
 
+        private Vector2 startPosition;
+
+        public int MinStars { get; private set; }
+        public int MaxStars { get; private set; }
+
+        public Rectangle LaunchArea { get; private set; }
         public Contour Contour { get; private set; }
-        public Vector2 startPosition;
+
         public int number;
         public RenderTarget2D portalMap;
 
@@ -39,6 +45,10 @@ namespace GravityGame.Levels
             trajectorySections = info.TrajectorySections;
             trajectoryLength = info.TrajectoryLength;
             launchForce = info.LaunchForce;
+
+            LaunchArea = info.LaunchArea;
+            MinStars = info.MinStars;
+            MaxStars = info.MaxStars;
 
             finishObject = new Finish(info.Finish.Trajectory.GetMovingTrajectory(), info.Finish.Size, 0f, info.Finish.Color);
             gravityObjects = info.GetGravityObjects();
@@ -56,7 +66,7 @@ namespace GravityGame.Levels
 
             time = new Time();
             players = new List<IGameObject>();
-            Contour = new Contour(trajectorySections);
+            Contour = new Contour(trajectoryLength, trajectorySections);
 
             DrawPortalMap(graphicsDevice, spriteBatch);
         }
@@ -75,16 +85,18 @@ namespace GravityGame.Levels
         public void CreateLaunchingPlayer(Vector2 launchPosition)
         {
             launchingPlayerObject = new Player(launchPosition);
-            Contour = new Contour(trajectorySections);
+            Contour = new Contour(trajectoryLength, trajectorySections);
         }
         public void SetLaunchPosition(Vector2 launchPosition)
         {
+            launchPosition = LaunchArea.Clamp(launchPosition);
             launchingPlayerObject.SetStartPosition(startPosition, launchPosition, launchForce);
             launchingPlayerObject.Position = launchPosition;
             Contour.CreateContour(GetTrajectory(launchingPlayerObject, launchPosition));
         }
         public void Launch(Vector2 launchPosition)
         {
+            launchPosition = LaunchArea.Clamp(launchPosition);
             Contour.CreateContour(GetTrajectory(launchingPlayerObject, launchPosition));
             launchingPlayerObject.Launch(startPosition, launchPosition, launchForce);
             AddPlayer(launchingPlayerObject);
@@ -105,7 +117,7 @@ namespace GravityGame.Levels
             List<List<Vector2>> trajectory = new List<List<Vector2>>() { new List<Vector2>() { lastPosition } };
             int trajectoryNumber = 0;
 
-            while (distance < trajectoryLength && sectionNumber < trajectorySections)
+            while (distance < trajectoryLength && sectionNumber < trajectorySections && !CheckTrajectoryEnd(player))
             {
                 CheckStars();
                 tempTime.Update();
@@ -128,6 +140,22 @@ namespace GravityGame.Levels
 
             player.Position = tempPosition;
             return trajectory;
+        }
+
+        private bool CheckTrajectoryEnd(Player player)
+        {
+            return CheckFinish(player) || CheckGravities(player);
+        }
+        private bool CheckFinish(Player player)
+        {
+            return finishObject.CheckCollision(player);
+        }
+        private bool CheckGravities(Player player)
+        {
+            foreach (Gravity gravity in gravityObjects)
+                if (gravity.CheckCollision(player))
+                    return true;
+            return false;
         }
 
         private void CheckStars()
@@ -154,15 +182,13 @@ namespace GravityGame.Levels
         {
             return finishObject.CheckCollision(players);
         }
+
         public void CheckGravities()
         {
             foreach (Player player in players)
                 foreach (Gravity gravity in gravityObjects)
                     if (gravity.CheckCollision(player))
-                    {
                         player.StartDying(gravity, time);
-                        break;
-                    }
         }
 
         public void Update()

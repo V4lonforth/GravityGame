@@ -19,8 +19,8 @@ namespace GravityGame.Effects.GravityEffects
         private const float MinVertexAngle = (float)Math.PI / 2f;
         private const float MaxVertexAngle = (float)Math.PI * 5f / 6f;
 
-        private const float MinSpawnDistance = 60f;
-        private const float MaxSpawnDistance = 140f;
+        private const float MinSpawnDistance = 40f;
+        private const float MaxSpawnDistance = 80f;
 
         private const float MinCenterRotationAcceleration = 0.25f;
         private const float MaxCenterRotationAcceleration = 0.42f;
@@ -31,7 +31,7 @@ namespace GravityGame.Effects.GravityEffects
         private const float MinColorMultiplier = 0.5f;
         private const float MaxColorMultiplier = 1.5f;
 
-        private const float Acceleration = 10f;
+        private const float Acceleration = 30f;
 
         private const float CreationTime = 0.05f;
         private static readonly int TrianglesCount = (int)(Math.Sqrt(2 * MaxSpawnDistance / Acceleration) / CreationTime + 1);

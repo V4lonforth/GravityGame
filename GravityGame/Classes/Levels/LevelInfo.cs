@@ -18,11 +18,16 @@ namespace GravityGame.Levels
         public int TrajectorySections;
         public float LaunchForce;
 
+        public int MinStars;
+        public int MaxStars;
+
+        public Rectangle LaunchArea;
+
         public LevelInfo()
         {
             TrajectoryLength = 1000f;
             TrajectorySections = 120;
-            LaunchForce = 0.5f;
+            LaunchForce = 1f;
         }
 
         public Gravity[] GetGravityObjects()

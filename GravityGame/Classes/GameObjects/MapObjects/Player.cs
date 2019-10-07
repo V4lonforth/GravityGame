@@ -88,7 +88,8 @@ namespace GravityGame.GameObjects.MapObjects
             float radiusSpeed = -Vector2.Dot(Velocity, localPosition);
             float angleSpeed = -Vector2.Dot(Velocity, new Vector2(localPosition.Y, -localPosition.X)) / startRadius;
 
-            dyingTrajectory = new MovingSpiral(gravity, lastPosition, Position, Velocity, time.CurrentTime);
+            dyingTrajectory = new MovingSpiral(gravity, Position, Velocity, time.CurrentTime);
+            Position = dyingTrajectory.GetPosition(time.CurrentTime);
         }
 
         public void Update(Time time)
@@ -102,14 +103,6 @@ namespace GravityGame.GameObjects.MapObjects
             }
             else
             {
-                //if (decreasing)
-                //    Size *= 0.9f;
-                //else if (Size.X <= size.X * 3.5f)
-                //    Size *= 1.1f;
-                //else
-                //    decreasing = true;
-
-                //Color *= 0.97f;
                 Position = dyingTrajectory.GetPosition(time.CurrentTime);
                 Size = size * dyingTrajectory.Size;
                 trail.Width = (size.X - 12f) / 2f * dyingTrajectory.Size;

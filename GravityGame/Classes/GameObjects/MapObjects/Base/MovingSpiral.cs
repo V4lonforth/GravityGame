@@ -1,14 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Microsoft.Xna.Framework;
 
 namespace GravityGame.GameObjects.MapObjects.Base
@@ -28,29 +18,45 @@ namespace GravityGame.GameObjects.MapObjects.Base
         public float Size { get; private set; }
         public bool Ended { get; private set; }
 
-        public MovingSpiral(Vector2 center, Vector2 firstPosition, Vector2 secondPosition, Vector2 velocity, float startTime)
+        private const float minDeltaAngle = 0.001f;
+
+        public MovingSpiral(Vector2 center, Vector2 position, Vector2 velocity, float startTime)
         {
             this.startTime = startTime;
+            centerStatic = center;
 
-            Vector2 normal = secondPosition - firstPosition;
-            normal = new Vector2(-normal.Y, normal.X).Normalized(out float length);
+            startAngle = (float)Math.Atan2(position.Y, position.X);
+            startRadius = position.Length();
 
-            Vector2 localPosition = firstPosition - center;
-            Vector2 localPerpendicular = Vector2.Dot(normal, firstPosition - center) * normal;
+            position = position - center + velocity.Normalized(out float length);
 
-            float r1 = localPosition.Length();
-            float f1 = (float)Math.Atan2(localPosition.Y, localPosition.X);
-            startRadius = localPerpendicular.Length();
-            startAngle = (float)Math.Atan2(localPerpendicular.Y, localPerpendicular.X);
+            float deltaAngle = (float)Math.Atan2(position.Y, position.X) - startAngle;
+            float deltaRadius = position.Length() - startRadius;
 
-            a = (float)Math.Pow(r1 / startRadius, 1f / (f1 - startAngle));
-            b = (float)Math.Log(r1, a) - f1;
+            if (deltaRadius > 1f)
+                deltaRadius = 1f;
 
-            speed = (float)Math.Log(Math.Pow(a, startAngle) + velocity.Length() / (Math.Pow(a, b) * Math.Sqrt(1 + 1 / Math.Pow(Math.Log(a), 2))), a);
+            if (deltaAngle >= 0f)
+            {
+                if (deltaAngle < minDeltaAngle)
+                    deltaAngle = minDeltaAngle;
+            }
+            else if (deltaAngle > -minDeltaAngle)
+                deltaAngle = -minDeltaAngle;
+
+            a = (float)Math.Exp(deltaRadius / (deltaAngle * startRadius));
+            b = (float)Math.Log(startRadius, a) - startAngle;
+            speed = deltaAngle * length;
+            //speed = -(float)Math.Log(Math.Pow(a, startAngle) + velocity.Length() / (Math.Pow(a, b) * Math.Sqrt(1 + 1 / Math.Pow(Math.Log(a), 2))), a);
+            //if (a > 0 && a < 1 && speed < 0)
+            //    if (speed < -1)
+            //        speed *= -1;
+            //    else
+            //        speed = -1 / speed;
         }
 
-        public MovingSpiral(MapObject center, Vector2 firstPosition, Vector2 secondPosition, Vector2 velocity, float startTime) 
-            : this(center.Position, firstPosition, secondPosition, velocity, startTime)
+        public MovingSpiral(MapObject center, Vector2 position, Vector2 velocity, float startTime)
+            : this(center.Position, position, velocity, startTime)
         {
             centerObject = center;
         }
@@ -60,12 +66,12 @@ namespace GravityGame.GameObjects.MapObjects.Base
             Vector2 center = centerObject == null ? centerStatic : centerObject.Position;
             float currentTime = time - startTime;
 
-            float angle = -currentTime * speed + startAngle;
-            float radius = (float)Math.Pow(a, b + angle);
+            float angle = currentTime * speed + startAngle;
+            float radius = (float)Math.Pow(a, angle + b);
             Vector2 localPosition = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * radius;
 
             Ended = radius <= 0f;
-            Size = radius / startRadius;
+            Size = (float)Math.Sqrt(radius / startRadius);
             return radius >= 0f ? center + localPosition : center;
         }
     }

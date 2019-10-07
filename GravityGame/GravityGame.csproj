@@ -73,6 +73,7 @@
     <Compile Include="Classes\GameObjects\MapObjects\Star.cs" />
     <Compile Include="Classes\Utils\FloatRandom.cs" />
     <Compile Include="Classes\Utils\Functions.cs" />
+    <Compile Include="Classes\Utils\RectangleExtension.cs" />
     <Compile Include="Classes\Utils\Vector2Extension.cs" />
     <Compile Include="Classes\GameObjects\Base\Drawable.cs" />
     <Compile Include="Classes\GameObjects\Base\ICollider.cs" />

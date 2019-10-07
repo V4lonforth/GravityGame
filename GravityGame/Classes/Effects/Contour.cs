@@ -11,14 +11,16 @@ namespace GravityGame.Effects
     {
         private List<WrappedDrawable> trajectory;
         private int sectionsCount;
+        private float maxWidth;
 
         private static Color color = Color.Black;
         private static Texture2D sprite;
 
         private const float TrajectoryWidth = 5f;
 
-        public Contour(int trajectorySections = 120)
+        public Contour(float width, int trajectorySections = 300)
         {
+            maxWidth = width;
             trajectory = new List<WrappedDrawable>(trajectorySections);
         }
 
@@ -51,9 +53,10 @@ namespace GravityGame.Effects
                     drawable.Position = (positions[i + 1] + positions[i]) / 2f;
                     drawable.Size = new Vector2(dist, TrajectoryWidth);
                     drawable.Rotation = (float)Math.Atan2(direction.Y, direction.X);
-                    float alpha = 1f - (float)i / maxSectionsCount;
-                    drawable.Color = color * alpha;
                     width += dist;
+                    //float alpha = 1f - (float)i / maxSectionsCount;
+                    float alpha = 1f - width / maxWidth;
+                    drawable.Color = color * alpha;
                     sectionsCount++;
                 }
             }
