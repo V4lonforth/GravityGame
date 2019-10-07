@@ -8,15 +8,15 @@
   <MaxStars>1</MaxStars>
 
   <LaunchArea>
-    <X>-400</X>
-    <Y>600</Y>
-    <Width>800</Width>
-    <Height>360</Height>
+    <X>-450</X>
+    <Y>400</Y>
+    <Width>900</Width>
+    <Height>560</Height>
   </LaunchArea>
 
   <PlayerPosition>
     <X>0</X>
-    <Y>700</Y>
+    <Y>500</Y>
   </PlayerPosition>
 
   <Finish>
@@ -28,7 +28,7 @@
       <MovingType>Static</MovingType>
       <Position>
         <X>0</X>
-        <Y>-700</Y>
+        <Y>-500</Y>
       </Position>
     </Trajectory>
     <Color>
@@ -49,8 +49,46 @@
         <Trajectory>
           <MovingType>Static</MovingType>
           <Position>
-            <X>0</X>
+            <X>-100</X>
             <Y>0</Y>
+          </Position>
+        </Trajectory>
+        <Color>
+          <A>255</A>
+        </Color>
+      </MapObject>
+      <GravityPower>300</GravityPower>
+    </GravityInfo>
+    <GravityInfo>
+      <MapObject>
+        <Size>
+          <X>60</X>
+          <Y>60</Y>
+        </Size>
+        <Trajectory>
+          <MovingType>Static</MovingType>
+          <Position>
+            <X>175</X>
+            <Y>175</Y>
+          </Position>
+        </Trajectory>
+        <Color>
+          <A>255</A>
+        </Color>
+      </MapObject>
+      <GravityPower>150</GravityPower>
+    </GravityInfo>
+    <GravityInfo>
+      <MapObject>
+        <Size>
+          <X>60</X>
+          <Y>60</Y>
+        </Size>
+        <Trajectory>
+          <MovingType>Static</MovingType>
+          <Position>
+            <X>175</X>
+            <Y>-175</Y>
           </Position>
         </Trajectory>
         <Color>
@@ -76,8 +114,8 @@
       <Trajectory>
         <MovingType>Static</MovingType>
         <Position>
-          <X>350</X>
-          <Y>0</Y>
+          <X>0</X>
+          <Y>150</Y>
         </Position>
       </Trajectory>
     </MapObjectInfo>
@@ -95,7 +133,26 @@
       <Trajectory>
         <MovingType>Static</MovingType>
         <Position>
-          <X>-350</X>
+          <X>0</X>
+          <Y>-150</Y>
+        </Position>
+      </Trajectory>
+    </MapObjectInfo>
+    <MapObjectInfo>
+      <Size>
+        <X>100</X>
+        <Y>100</Y>
+      </Size>
+      <Color>
+        <R>255</R>
+        <G>242</G>
+        <B>0</B>
+        <A>255</A>
+      </Color>
+      <Trajectory>
+        <MovingType>Static</MovingType>
+        <Position>
+          <X>175</X>
           <Y>0</Y>
         </Position>
       </Trajectory>

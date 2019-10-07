@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LevelInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TrajectoryLength>6000</TrajectoryLength>
+  <TrajectorySections>720</TrajectorySections>
+  <LaunchForce>1.5</LaunchForce>
+
   <PlayerPosition>
     <X>0</X>
     <Y>700</Y>
   </PlayerPosition>
-  
+
   <Finish>
     <Size>
       <X>100</X>
@@ -24,7 +28,7 @@
       <A>255</A>
     </Color>
   </Finish>
-  
+
   <GravityObjects>
     <GravityInfo>
       <MapObject>
@@ -67,7 +71,7 @@
   </GravityObjects>
 
   <Stars>
-    <!--MapObjectInfo>
+    <MapObjectInfo>
       <Size>
         <X>100</X>
         <Y>100</Y>
@@ -81,26 +85,7 @@
       <Trajectory>
         <MovingType>Static</MovingType>
         <Position>
-          <X>300</X>
-          <Y>300</Y>
-        </Position>
-      </Trajectory>
-    </MapObjectInfo>
-    <MapObjectInfo>
-      <Size>
-        <X>100</X>
-        <Y>100</Y>
-      </Size>
-      <Color>
-        <R>255</R>
-        <G>242</G>
-        <B>0</B>
-        <A>255</A>
-      </Color> 
-      <Trajectory>
-        <MovingType>Static</MovingType>
-        <Position>
-          <X>350</X>
+          <X>0</X>
           <Y>0</Y>
         </Position>
       </Trajectory>
@@ -117,12 +102,41 @@
         <A>255</A>
       </Color>
       <Trajectory>
-        <MovingType>Static</MovingType>
-        <Position>
-          <X>300</X>
-          <Y>-300</Y>
-        </Position>
+        <MovingType>Linear</MovingType>
+        <FirstPosition>
+          <X>175</X>
+          <Y>350</Y>
+        </FirstPosition>
+        <SecondPosition>
+          <X>-175</X>
+          <Y>350</Y>
+        </SecondPosition>
+        <LinearPeriod>2</LinearPeriod>
       </Trajectory>
-    </MapObjectInfo-->
+    </MapObjectInfo>
+    <MapObjectInfo>
+      <Size>
+        <X>100</X>
+        <Y>100</Y>
+      </Size>
+      <Color>
+        <R>255</R>
+        <G>242</G>
+        <B>0</B>
+        <A>255</A>
+      </Color>
+      <Trajectory>
+        <MovingType>Linear</MovingType>
+        <FirstPosition>
+          <X>175</X>
+          <Y>-350</Y>
+        </FirstPosition>
+        <SecondPosition>
+          <X>-175</X>
+          <Y>-350</Y>
+        </SecondPosition>
+        <LinearPeriod>2</LinearPeriod>
+      </Trajectory>
+    </MapObjectInfo>
   </Stars>
 </LevelInfo>
